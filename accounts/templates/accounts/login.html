@@ -1,0 +1,169 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login | Adaptive Learning LMS</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: #f8fafc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .auth-card {
+      width: 420px;
+      background: #111827;
+      padding: 40px;
+      border-radius: 18px;
+      box-shadow: 0px 10px 30px rgba(0,0,0,0.4);
+    }
+
+    h2 {
+      color: white;
+      font-size: 28px;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+
+    /* Toggle */
+    .role-toggle {
+      display: flex;
+      background: #1f2937;
+      border-radius: 30px;
+      overflow: hidden;
+      margin-bottom: 25px;
+    }
+
+    .role-toggle label {
+      flex: 1;
+      text-align: center;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      color: #9ca3af;
+      transition: 0.3s;
+    }
+
+    input[type="radio"] {
+      display: none;
+    }
+
+    input[type="radio"]:checked + label {
+      background: #2563eb;
+      color: white;
+    }
+
+    /* Inputs */
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      color: #cbd5e1;
+      font-size: 14px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: none;
+      outline: none;
+      background: #1f2937;
+      color: white;
+      font-size: 15px;
+    }
+
+    /* Button */
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 14px;
+      background: #facc15;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn-submit:hover {
+      background: #eab308;
+    }
+
+    /* Link */
+    .bottom-text {
+      margin-top: 18px;
+      text-align: center;
+      color: #9ca3af;
+      font-size: 14px;
+    }
+
+    .bottom-text a {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div class="auth-card">
+
+    <h2>Login</h2>
+
+    <form method="POST">
+      {% csrf_token %}
+
+      <!-- Role Toggle -->
+      <div class="role-toggle">
+        <input type="radio" name="role" value="student" id="student" checked>
+        <label for="student">Student</label>
+
+        <input type="radio" name="role" value="instructor" id="instructor">
+        <label for="instructor">Instructor</label>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label>Email Address *</label>
+        <input type="email" name="email" placeholder="Enter email address" required>
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+        <label>Password *</label>
+        <input type="password" name="password" placeholder="Enter password" required>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit" class="btn-submit">
+        Login
+      </button>
+
+      <p class="bottom-text">
+        Don’t have an account?
+        <a href="{% url 'register' %}">Register</a>
+      </p>
+
+    </form>
+  </div>
+
+</body>
+</html>

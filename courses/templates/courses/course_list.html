@@ -1,0 +1,254 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Courses | Adaptive Learning LMS</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: #f8fafc;
+    }
+
+    /* ================= NAVBAR ================= */
+    header {
+      width: 100%;
+      background: white;
+      padding: 18px 60px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0px 2px 10px rgba(0,0,0,0.08);
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 700;
+      color: #111;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+    }
+
+    nav {
+      margin-left: auto;
+      margin-right: 30px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 35px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      font-weight: 600;
+      color: #222;
+      padding-bottom: 5px;
+    }
+
+    nav ul li a.active {
+      color: #2563eb;
+      border-bottom: 2px solid #2563eb;
+    }
+
+    .login-btn {
+      background: #2563eb;
+      color: white;
+      padding: 10px 22px;
+      border-radius: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .login-btn:hover {
+      background: #1e40af;
+    }
+
+    /* ================= PAGE HERO ================= */
+    .page-title {
+      text-align: center;
+      padding: 70px 20px 30px;
+    }
+
+    .page-title h1 {
+      font-size: 50px;
+      font-weight: 800;
+      color: #111;
+    }
+
+    .page-title p {
+      margin-top: 15px;
+      font-size: 18px;
+      color: #555;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+
+    /* ================= COURSES GRID ================= */
+    .courses-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 25px;
+      padding: 50px 60px;
+    }
+
+    .course-card {
+      background: white;
+      width: 300px;
+      border-radius: 20px;
+      box-shadow: 0px 6px 18px rgba(0,0,0,0.08);
+      overflow: hidden;
+      transition: 0.3s;
+    }
+
+    .course-card:hover {
+      transform: translateY(-8px);
+    }
+
+    /* ✅ Better Image Styling */
+    .course-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: contain;
+      background: #f8fafc;
+      padding: 15px;
+    }
+
+    .course-content {
+      padding: 20px;
+    }
+
+    .course-content h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #111;
+    }
+
+    .course-content p {
+      font-size: 14px;
+      color: gray;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+
+    .course-btn {
+      display: inline-block;
+      background: #2563eb;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .course-btn:hover {
+      background: #1e40af;
+    }
+
+    /* ================= RESPONSIVE ================= */
+    @media (max-width: 900px) {
+      header {
+        padding: 15px 20px;
+      }
+
+      .courses-container {
+        padding: 30px 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ================= NAVBAR ================= -->
+  <header>
+    <div class="logo">
+      🎓 Adaptive Learning LMS
+    </div>
+
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/courses/" class="active">Courses</a></li>
+         <li><a href="/about/">About</a></li>
+        <li><a href="/contact/">Contact</a></li>
+      </ul>
+    </nav>
+
+    <a href="{% url 'login' %}" class="login-btn">Login</a>
+  </header>
+
+
+  <!-- ================= PAGE TITLE ================= -->
+  <section class="page-title">
+    <h1>📚 Explore Our Courses</h1>
+    <p>
+      Choose from a variety of professional courses designed to help you
+      learn smarter, improve skills, and earn certificates.
+    </p>
+  </section>
+
+
+  <!-- ================= COURSES LIST ================= -->
+  <section class="courses-container">
+
+    <!-- Course 1 -->
+    <div class="course-card">
+      <img src="https://cdn-icons-png.flaticon.com/512/2721/2721297.png">
+      <div class="course-content">
+        <h3>Python Programming</h3>
+        <p>Learn Python from basics to advanced with real-world projects.</p>
+        <a href="#" class="course-btn">View Course</a>
+      </div>
+    </div>
+
+    <!-- Course 2 -->
+    <div class="course-card">
+      <img src="https://cdn-icons-png.flaticon.com/512/1006/1006363.png">
+      <div class="course-content">
+        <h3>Web Development</h3>
+        <p>Master HTML, CSS, JavaScript, Django and build full websites.</p>
+        <a href="#" class="course-btn">View Course</a>
+      </div>
+    </div>
+
+    <!-- Course 3 -->
+    <div class="course-card">
+      <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png">
+      <div class="course-content">
+        <h3>Artificial Intelligence</h3>
+        <p>Understand Machine Learning concepts and AI applications.</p>
+        <a href="#" class="course-btn">View Course</a>
+      </div>
+    </div>
+
+    <!-- Course 4 -->
+    <div class="course-card">
+      <img src="https://cdn-icons-png.flaticon.com/512/4248/4248443.png">
+      <div class="course-content">
+        <h3>Database & SQL</h3>
+        <p>Learn SQL, PostgreSQL and manage backend systems efficiently.</p>
+        <a href="#" class="course-btn">View Course</a>
+      </div>
+    </div>
+
+  </section>
+
+</body>
+</html>

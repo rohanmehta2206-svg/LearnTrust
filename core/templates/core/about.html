@@ -1,0 +1,331 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About | Adaptive Learning LMS</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: #f8fafc;
+    }
+
+    /* ================= NAVBAR ================= */
+    header {
+      width: 100%;
+      background: white;
+      padding: 18px 60px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0px 2px 10px rgba(0,0,0,0.08);
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 700;
+      flex: 1;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 35px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      font-weight: 600;
+      color: #222;
+      padding-bottom: 5px;
+    }
+
+    nav ul li a.active {
+      color: #2563eb;
+      border-bottom: 2px solid #2563eb;
+    }
+
+    .login-btn {
+      margin-left: 30px;
+      background: #2563eb;
+      color: white;
+      padding: 10px 22px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* ================= ABOUT HEADER ================= */
+    .about-header {
+      text-align: center;
+      padding: 90px 20px 50px;
+    }
+
+    .about-header h1 {
+      font-size: 55px;
+      font-weight: 900;
+      color: #111;
+    }
+
+    .about-header p {
+      margin-top: 18px;
+      font-size: 18px;
+      color: gray;
+      max-width: 750px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.7;
+    }
+
+    /* ================= MISSION SECTION ================= */
+    .mission-section {
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      align-items: center;
+      padding: 60px 80px;
+    }
+
+    .mission-box {
+      flex: 1;
+    }
+
+    .mission-box h2 {
+      font-size: 35px;
+      font-weight: 800;
+      margin-bottom: 15px;
+    }
+
+    .mission-box p {
+      font-size: 16px;
+      color: #555;
+      line-height: 1.7;
+    }
+
+    .mission-image {
+      flex: 1;
+      text-align: center;
+    }
+
+    .mission-image img {
+      width: 420px;
+      max-width: 100%;
+    }
+
+    /* ================= STATS ================= */
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      padding: 50px 30px;
+    }
+
+    .stat-card {
+      background: white;
+      width: 230px;
+      padding: 30px;
+      border-radius: 18px;
+      text-align: center;
+      box-shadow: 0px 6px 18px rgba(0,0,0,0.07);
+    }
+
+    .stat-card h3 {
+      font-size: 35px;
+      color: #2563eb;
+      font-weight: 900;
+    }
+
+    .stat-card p {
+      margin-top: 8px;
+      font-size: 14px;
+      color: gray;
+    }
+
+    /* ================= TEAM ================= */
+    .team-section {
+      padding: 80px 60px;
+      text-align: center;
+    }
+
+    .team-section h2 {
+      font-size: 40px;
+      font-weight: 900;
+      margin-bottom: 15px;
+    }
+
+    .team-section p {
+      color: gray;
+      max-width: 700px;
+      margin: auto;
+      margin-bottom: 50px;
+      line-height: 1.6;
+    }
+
+    .team-grid {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      flex-wrap: wrap;
+    }
+
+    .team-card {
+      background: white;
+      width: 260px;
+      padding: 35px 25px;
+      border-radius: 20px;
+      box-shadow: 0px 6px 18px rgba(0,0,0,0.08);
+      transition: 0.3s;
+    }
+
+    .team-card:hover {
+      transform: translateY(-8px);
+    }
+
+    .team-card img {
+      width: 90px;
+      border-radius: 50%;
+      margin-bottom: 15px;
+    }
+
+    .team-card h3 {
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .team-card span {
+      font-size: 14px;
+      color: gray;
+    }
+
+    /* ================= RESPONSIVE ================= */
+    @media(max-width: 900px) {
+      .mission-section {
+        flex-direction: column;
+        text-align: center;
+        padding: 50px 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header>
+    <div class="logo">🎓 Adaptive Learning LMS</div>
+
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/courses/">Courses</a></li>
+        <li><a href="/about/" class="active">About</a></li>
+        <li><a href="/contact/">Contact</a></li>
+      </ul>
+    </nav>
+
+     <a href="{% url 'login' %}" class="login-btn">Login</a>
+  </header>
+
+
+  <!-- ABOUT HEADER -->
+  <section class="about-header">
+    <h1>About Adaptive LMS</h1>
+    <p>
+      Adaptive Learning LMS is a modern platform built to transform the way
+      students learn, teachers teach, and institutions manage education.
+    </p>
+  </section>
+
+
+  <!-- MISSION SECTION -->
+  <section class="mission-section">
+
+    <div class="mission-box">
+      <h2>🎯 Our Mission</h2>
+      <p>
+        Our mission is to make learning smarter, interactive, and personalized.
+        We help students progress step-by-step, unlock quizzes, and gain real skills.
+      </p>
+
+      <p>
+        Teachers can easily upload modules, track student performance, and manage
+        courses securely in one place.
+      </p>
+    </div>
+
+    <div class="mission-image">
+      <img src="{% static 'core/images/hero.png' %}" alt="Mission Illustration">
+    </div>
+
+  </section>
+
+
+  <!-- STATS SECTION -->
+  <section class="stats">
+
+    <div class="stat-card">
+      <h3>500+</h3>
+      <p>Active Students</p>
+    </div>
+
+    <div class="stat-card">
+      <h3>120+</h3>
+      <p>Courses Available</p>
+    </div>
+
+    <div class="stat-card">
+      <h3>50+</h3>
+      <p>Expert Teachers</p>
+    </div>
+
+    <div class="stat-card">
+      <h3>100%</h3>
+      <p>Secure Learning</p>
+    </div>
+
+  </section>
+
+
+  <!-- TEAM SECTION -->
+  <section class="team-section">
+    <h2>Meet Our Team</h2>
+    <p>
+      Adaptive LMS is built by passionate developers and educators who believe
+      in the future of smart learning.
+    </p>
+
+    <div class="team-grid">
+
+      <div class="team-card">
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+        <h3>Rohan</h3>
+        <span>Full Stack Developer</span>
+      </div>
+
+      <div class="team-card">
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135810.png">
+        <h3>Teacher Admin</h3>
+        <span>Course Manager</span>
+      </div>
+
+      <div class="team-card">
+        <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png">
+        <h3>AI Assistant</h3>
+        <span>Smart Learning Support</span>
+      </div>
+
+    </div>
+  </section>
+
+</body>
+</html>

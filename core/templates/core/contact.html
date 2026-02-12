@@ -1,0 +1,271 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact | Adaptive Learning LMS</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: #f8fafc;
+    }
+
+    /* ================= NAVBAR ================= */
+    header {
+      width: 100%;
+      background: white;
+      padding: 18px 60px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0px 2px 10px rgba(0,0,0,0.08);
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 700;
+      flex: 1;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 35px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      font-weight: 600;
+      color: #222;
+      padding-bottom: 5px;
+    }
+
+    nav ul li a.active {
+      color: #2563eb;
+      border-bottom: 2px solid #2563eb;
+    }
+
+    .login-btn {
+      margin-left: 30px;
+      background: #2563eb;
+      color: white;
+      padding: 10px 22px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* ================= CONTACT HEADER ================= */
+    .contact-header {
+      text-align: center;
+      padding: 90px 20px 50px;
+    }
+
+    .contact-header h1 {
+      font-size: 55px;
+      font-weight: 900;
+      color: #111;
+    }
+
+    .contact-header p {
+      margin-top: 18px;
+      font-size: 18px;
+      color: gray;
+      max-width: 750px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.7;
+    }
+
+    /* ================= CONTACT SECTION ================= */
+    .contact-section {
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      padding: 60px 80px;
+      flex-wrap: wrap;
+    }
+
+    /* Contact Form */
+    .contact-form {
+      background: white;
+      width: 450px;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0px 6px 18px rgba(0,0,0,0.08);
+    }
+
+    .contact-form h2 {
+      font-size: 26px;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 15px;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      outline: none;
+      font-size: 15px;
+    }
+
+    .contact-form textarea {
+      resize: none;
+      height: 120px;
+    }
+
+    .contact-form button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      background: #2563eb;
+      color: white;
+      transition: 0.3s;
+    }
+
+    .contact-form button:hover {
+      background: #1e40af;
+    }
+
+    /* Contact Info Cards */
+    .contact-info {
+      width: 350px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .info-card {
+      background: white;
+      padding: 25px;
+      border-radius: 18px;
+      box-shadow: 0px 6px 18px rgba(0,0,0,0.07);
+    }
+
+    .info-card h3 {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: #2563eb;
+    }
+
+    .info-card p {
+      font-size: 15px;
+      color: #444;
+      line-height: 1.6;
+    }
+
+    /* Map Section */
+    .map {
+      margin: 60px auto;
+      width: 85%;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0px 8px 22px rgba(0,0,0,0.08);
+    }
+
+    iframe {
+      width: 100%;
+      height: 350px;
+      border: none;
+    }
+
+    /* Responsive */
+    @media(max-width: 900px) {
+      .contact-section {
+        padding: 40px 20px;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header>
+    <div class="logo">🎓 Adaptive Learning LMS</div>
+
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/courses/">Courses</a></li>
+        <li><a href="/about/">About</a></li>
+        <li><a href="/contact/" class="active">Contact</a></li>
+      </ul>
+    </nav>
+
+     <a href="{% url 'login' %}" class="login-btn">Login</a>
+  </header>
+
+
+  <!-- CONTACT HEADER -->
+  <section class="contact-header">
+    <h1>📩 Contact Us</h1>
+    <p>
+      Have questions or need support?  
+      Feel free to reach out to us anytime. We are here to help you learn smarter.
+    </p>
+  </section>
+
+
+  <!-- CONTACT SECTION -->
+  <section class="contact-section">
+
+    <!-- FORM -->
+    <div class="contact-form">
+      <h2>Send Us a Message</h2>
+
+      <form>
+        <input type="text" placeholder="Your Name" required>
+        <input type="email" placeholder="Your Email" required>
+        <textarea placeholder="Write your message..." required></textarea>
+
+        <button type="submit">Send Message 🚀</button>
+      </form>
+    </div>
+
+    <!-- INFO -->
+    <div class="contact-info">
+
+      <div class="info-card">
+        <h3>📍 Our Location</h3>
+        <p>Adaptive Learning LMS<br>Bisag- N Gandhinagar</p>
+      </div>
+
+      <div class="info-card">
+        <h3>📧 Email</h3>
+        <p>vekariyavraj760@gmail.com</p>
+      </div>
+
+      <div class="info-card">
+        <h3>📞 Phone</h3>
+        <p>+91 93133 85318</p>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- MAP -->
+ 
+
+</body>
+</html>
