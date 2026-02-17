@@ -1,0 +1,310 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reports & Analytics | Adaptive LMS</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background: #f6f8fc;
+        }
+
+        /* ================= NAVBAR ================= */
+        nav {
+            background: white;
+            padding: 18px 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 3px 12px rgba(0,0,0,0.05);
+        }
+
+        nav .logo {
+            font-size: 22px;
+            font-weight: bold;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 28px;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            font-weight: 600;
+            color: #111827;
+            transition: 0.2s;
+        }
+
+        nav ul li a:hover {
+            color: #2563eb;
+        }
+
+        nav ul li a.active {
+            color: #2563eb;
+            border-bottom: 3px solid #2563eb;
+            padding-bottom: 6px;
+        }
+
+        /* ✅ Logout Button */
+        .logout-btn {
+            background: #2563eb;
+            color: white;
+            padding: 9px 16px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #1e40af;
+        }
+
+        /* ================= CONTAINER ================= */
+        .container {
+            padding: 55px 75px;
+        }
+
+        /* ================= HEADER ================= */
+        .banner {
+            background: linear-gradient(to right, #1e40af, #2563eb);
+            border-radius: 20px;
+            padding: 50px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .banner h1 {
+            font-size: 38px;
+        }
+
+        .banner p {
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+
+        .banner img {
+            width: 110px;
+        }
+
+        /* ================= STATS ================= */
+        .stats-grid {
+            margin-top: 45px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0px 4px 14px rgba(0,0,0,0.07);
+        }
+
+        .stat-card h2 {
+            font-size: 26px;
+            color: #2563eb;
+        }
+
+        .stat-card p {
+            margin-top: 8px;
+            color: gray;
+            font-size: 14px;
+        }
+
+        /* ================= REPORT TABLE ================= */
+        .report-section {
+            margin-top: 60px;
+        }
+
+        .report-section h2 {
+            font-size: 22px;
+            margin-bottom: 18px;
+        }
+
+        .report-table {
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0px 4px 16px rgba(0,0,0,0.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f1f5ff;
+            padding: 18px;
+            text-align: left;
+            color: #2563eb;
+            font-size: 15px;
+        }
+
+        td {
+            padding: 18px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background: #f9fbff;
+        }
+
+        /* ================= API TAG ================= */
+        .api-tag {
+            font-size: 12px;
+            background: #e0f2fe;
+            color: #0284c7;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-weight: bold;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav>
+    <div class="logo">🎓 Adaptive LMS</div>
+
+    <ul>
+        <li><a href="{% url 'adminpanel:admin_dashboard' %}">Home</a></li>
+
+        <li><a href="{% url 'adminpanel:admin_manage_users' %}">Manage Users</a></li>
+
+        <li><a href="{% url 'adminpanel:admin_courses' %}">Courses</a></li>
+
+        <li>
+            <a href="{% url 'adminpanel:admin_reports' %}" class="active">
+                Reports
+            </a>
+        </li>
+
+        <!-- ✅ FIXED LOGOUT -->
+        <li>
+            <form method="POST" action="{% url 'accounts:logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">
+                    Logout
+                </button>
+            </form>
+        </li>
+    </ul>
+</nav>
+
+
+<!-- ================= MAIN ================= -->
+<div class="container">
+
+    <!-- Banner -->
+    <div class="banner">
+        <div>
+            <h1>📊 Moodle Reports & Analytics</h1>
+            <p>Track Moodle progress, course completion, quiz attempts, and LMS activity.</p>
+        </div>
+
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135710.png">
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="stats-grid">
+
+        <div class="stat-card">
+            <h2>250+</h2>
+            <p>Total Students Registered</p>
+            <span class="api-tag">Moodle: core_user_get_users</span>
+        </div>
+
+        <div class="stat-card">
+            <h2>40+</h2>
+            <p>Active Teachers</p>
+            <span class="api-tag">Moodle: core_role_assignments</span>
+        </div>
+
+        <div class="stat-card">
+            <h2>15</h2>
+            <p>Courses Running</p>
+            <span class="api-tag">Moodle: core_course_get_courses</span>
+        </div>
+
+        <div class="stat-card">
+            <h2>1200+</h2>
+            <p>Assignments Submitted</p>
+            <span class="api-tag">Moodle: mod_assign_get_submissions</span>
+        </div>
+
+    </div>
+
+    <!-- Reports Table -->
+    <div class="report-section">
+        <h2>📌 Recent Moodle Activity Logs</h2>
+
+        <div class="report-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Course</th>
+                        <th>Activity</th>
+                        <th>Status</th>
+                        <th>API Source</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>Rohan Sharma</td>
+                        <td>Django Web Development</td>
+                        <td>Assignment Submitted</td>
+                        <td>Completed ✅</td>
+                        <td><span class="api-tag">mod_assign</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>Anjali Patel</td>
+                        <td>Python Fundamentals</td>
+                        <td>Quiz Attempt</td>
+                        <td>In Progress ⏳</td>
+                        <td><span class="api-tag">mod_quiz</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>Arjun Verma</td>
+                        <td>AI + Adaptive Learning</td>
+                        <td>Course Completion</td>
+                        <td>Pending ❌</td>
+                        <td><span class="api-tag">core_completion</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

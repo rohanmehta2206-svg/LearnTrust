@@ -1,0 +1,279 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Courses | Adaptive LMS</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", sans-serif;
+            background: #f8fafc;
+        }
+
+        /* ================= NAVBAR ================= */
+        nav {
+            background: white;
+            padding: 18px 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 3px 12px rgba(0,0,0,0.05);
+        }
+
+        nav .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #111;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 28px;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            font-weight: 600;
+            color: #111827;
+            transition: 0.2s;
+        }
+
+        nav ul li a:hover {
+            color: #2563eb;
+        }
+
+        nav ul li a.active {
+            color: #2563eb;
+            border-bottom: 3px solid #2563eb;
+            padding-bottom: 6px;
+        }
+
+        /* ✅ Logout Button */
+        .logout-btn {
+            background: #2563eb;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 14px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #1e40af;
+        }
+
+        /* ================= PAGE CONTAINER ================= */
+        .container {
+            padding: 55px 75px;
+        }
+
+        .page-title {
+            margin-bottom: 35px;
+        }
+
+        .page-title h1 {
+            font-size: 36px;
+            margin: 0;
+        }
+
+        .page-title p {
+            color: gray;
+            margin-top: 8px;
+            font-size: 15px;
+        }
+
+        .section-title {
+            margin-top: 55px;
+            margin-bottom: 25px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        /* Courses Grid */
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+            transition: 0.3s;
+        }
+
+        .course-card:hover {
+            transform: translateY(-7px);
+        }
+
+        .course-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+        }
+
+        .course-content {
+            padding: 25px;
+        }
+
+        .course-content h3 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .course-content p {
+            margin: 10px 0;
+            font-size: 14px;
+            color: gray;
+            line-height: 1.4;
+        }
+
+        .course-content a {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 10px 20px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .course-content a:hover {
+            background: #1e40af;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR (FIXED) ================= -->
+<nav>
+    <div class="logo">🎓 Adaptive LMS</div>
+
+    <ul>
+        <!-- ✅ FIXED STUDENT URLS WITH NAMESPACE -->
+        <li>
+            <a href="{% url 'student:student_dashboard' %}">
+                Home
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'student:student_courses' %}" class="active">
+                Courses
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'student:student_profile' %}">
+                Profile
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'student:student_certificates' %}">
+                Certificates
+            </a>
+        </li>
+
+        <!-- ✅ FIXED LOGOUT -->
+        <li>
+            <form method="POST" action="{% url 'accounts:logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">
+                    Logout
+                </button>
+            </form>
+        </li>
+    </ul>
+</nav>
+
+
+<!-- ================= MAIN CONTENT ================= -->
+<div class="container">
+
+    <!-- Page Heading -->
+    <div class="page-title">
+        <h1>📚 My Courses</h1>
+        <p>All your enrolled courses and Moodle learning content in one place.</p>
+    </div>
+
+    <!-- Enrolled Courses -->
+    <div class="section-title">✅ Enrolled Courses</div>
+
+    <div class="course-grid">
+
+        <div class="course-card">
+            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1000&q=80">
+            <div class="course-content">
+                <h3>Django Web Development</h3>
+                <p>Build complete LMS platforms using Django + PostgreSQL.</p>
+                <a href="#">Continue →</a>
+            </div>
+        </div>
+
+        <div class="course-card">
+            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=80">
+            <div class="course-content">
+                <h3>Python Fundamentals</h3>
+                <p>Learn Python programming from basics to advanced concepts.</p>
+                <a href="#">Continue →</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Explore Courses -->
+    <div class="section-title">🌍 Explore More Moodle Courses</div>
+
+    <div class="course-grid">
+
+        <div class="course-card">
+            <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1000&q=80">
+            <div class="course-content">
+                <h3>Artificial Intelligence</h3>
+                <p>Understand Machine Learning and AI tools for adaptive learning.</p>
+                <a href="#">View Course →</a>
+            </div>
+        </div>
+
+        <div class="course-card">
+            <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1000&q=80">
+            <div class="course-content">
+                <h3>Database & SQL</h3>
+                <p>Master PostgreSQL, SQL queries, and database design.</p>
+                <a href="#">View Course →</a>
+            </div>
+        </div>
+
+        <div class="course-card">
+            <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1000&q=80">
+            <div class="course-content">
+                <h3>Full Stack Development</h3>
+                <p>Learn frontend + backend integration with real projects.</p>
+                <a href="#">View Course →</a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

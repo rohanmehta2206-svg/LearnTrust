@@ -1,0 +1,282 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Assignments | Adaptive LMS</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            overflow-y: scroll;
+        }
+
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background: #f8fafc;
+        }
+
+        /* ================= NAVBAR ================= */
+        nav {
+            background: white;
+            padding: 18px 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 3px 12px rgba(0,0,0,0.05);
+        }
+
+        nav .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #111;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 28px;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            font-weight: 600;
+            color: #111827;
+            transition: 0.2s;
+        }
+
+        nav ul li a:hover {
+            color: #2563eb;
+        }
+
+        nav ul li a.active {
+            color: #2563eb;
+            border-bottom: 3px solid #2563eb;
+            padding-bottom: 6px;
+        }
+
+        /* ✅ Logout Button */
+        .logout-btn {
+            background: #2563eb;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #1e40af;
+        }
+
+        /* ================= CONTAINER ================= */
+        .container {
+            padding: 55px 75px;
+        }
+
+        /* ================= HEADER ================= */
+        .header-box {
+            background: linear-gradient(to right, #1e40af, #2563eb);
+            padding: 50px;
+            border-radius: 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 55px;
+        }
+
+        .header-box h1 {
+            font-size: 40px;
+        }
+
+        .header-box p {
+            margin-top: 10px;
+            opacity: 0.9;
+            font-size: 15px;
+        }
+
+        .header-box img {
+            width: 120px;
+        }
+
+        /* ================= TOP SECTION ================= */
+        .section-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .section-top h2 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .create-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .create-btn:hover {
+            background: #1e40af;
+        }
+
+        /* ================= ASSIGNMENT CARDS ================= */
+        .assignment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .assignment-card {
+            background: white;
+            padding: 28px;
+            border-radius: 18px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+            transition: 0.3s;
+        }
+
+        .assignment-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .assignment-card h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .assignment-card p {
+            font-size: 14px;
+            color: gray;
+            margin-bottom: 10px;
+        }
+
+        .assignment-card span {
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        /* ================= ACTION LINKS ================= */
+        .action-links a {
+            display: inline-block;
+            margin-top: 12px;
+            margin-right: 14px;
+            text-decoration: none;
+            font-weight: 600;
+            color: #2563eb;
+            font-size: 14px;
+        }
+
+        .action-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ✅ FIXED NAVBAR -->
+<nav>
+    <div class="logo">🎓 Adaptive LMS</div>
+
+    <ul>
+        <!-- ✅ FIXED WITH teacher: namespace -->
+        <li><a href="{% url 'teacher:teacher_dashboard' %}">Home</a></li>
+
+        <li><a href="{% url 'teacher:teacher_manage_courses' %}">Manage Courses</a></li>
+
+        <li><a href="{% url 'teacher:teacher_students' %}">Students</a></li>
+
+        <li>
+            <a href="{% url 'teacher:teacher_assignments' %}" class="active">
+                Assignments
+            </a>
+        </li>
+
+        <li><a href="{% url 'teacher:teacher_gradebook' %}">Gradebook</a></li>
+
+        <!-- ✅ FIXED LOGOUT -->
+        <li>
+            <form method="POST" action="{% url 'accounts:logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">
+                    Logout
+                </button>
+            </form>
+        </li>
+    </ul>
+</nav>
+
+
+<!-- ================= MAIN CONTENT ================= -->
+<div class="container">
+
+    <!-- Header -->
+    <div class="header-box">
+        <div>
+            <h1>📑 Assignments</h1>
+            <p>Create, review, and manage Moodle-style assignments easily.</p>
+        </div>
+
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+    </div>
+
+    <!-- Top Section -->
+    <div class="section-top">
+        <h2>Your Assignments</h2>
+        <button class="create-btn">+ Create Assignment</button>
+    </div>
+
+    <!-- Assignment Cards -->
+    <div class="assignment-grid">
+
+        <div class="assignment-card">
+            <h3>Django Project Submission</h3>
+            <p>Course: <span>Django Web Development</span></p>
+            <p>Due Date: 20 Feb 2026</p>
+
+            <div class="action-links">
+                <a href="#">View Submissions</a>
+                <a href="#">Edit</a>
+                <a href="#">Delete</a>
+            </div>
+        </div>
+
+        <div class="assignment-card">
+            <h3>Python Quiz Assignment</h3>
+            <p>Course: <span>Python Fundamentals</span></p>
+            <p>Due Date: 25 Feb 2026</p>
+
+            <div class="action-links">
+                <a href="#">View Submissions</a>
+                <a href="#">Edit</a>
+                <a href="#">Delete</a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

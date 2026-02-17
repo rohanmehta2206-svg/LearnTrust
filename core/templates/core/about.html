@@ -220,20 +220,21 @@
 
 <body>
 
-  <!-- NAVBAR -->
+  <!-- ✅ NAVBAR -->
   <header>
     <div class="logo">🎓 Adaptive Learning LMS</div>
 
     <nav>
       <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/courses/">Courses</a></li>
-        <li><a href="/about/" class="active">About</a></li>
-        <li><a href="/contact/">Contact</a></li>
+        <li><a href="{% url 'core:home' %}">Home</a></li>
+        <li><a href="{% url 'courses:course_list' %}">Courses</a></li>
+        <li><a href="{% url 'core:about' %}" class="active">About</a></li>
+        <li><a href="{% url 'core:contact' %}">Contact</a></li>
       </ul>
     </nav>
 
-     <a href="{% url 'login' %}" class="login-btn">Login</a>
+    <!-- ✅ FIXED LOGIN -->
+    <a href="{% url 'accounts:login' %}" class="login-btn">Login</a>
   </header>
 
 

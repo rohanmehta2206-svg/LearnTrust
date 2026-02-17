@@ -1,0 +1,208 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quizzes | Adaptive LMS</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", sans-serif;
+            background: #f8fafc;
+        }
+
+        /* ================= NAVBAR ================= */
+        nav {
+            background: white;
+            padding: 18px 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 3px 12px rgba(0,0,0,0.05);
+        }
+
+        nav .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 28px;
+            align-items: center;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            font-weight: 600;
+            color: #111827;
+            padding-bottom: 6px;
+            border-bottom: 3px solid transparent;
+            transition: 0.2s;
+        }
+
+        nav ul li a:hover {
+            color: #2563eb;
+        }
+
+        nav ul li a.active {
+            color: #2563eb;
+            border-bottom: 3px solid #2563eb;
+        }
+
+        /* Logout Button */
+        .logout-btn {
+            background: #2563eb;
+            color: white !important;
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #1e40af;
+        }
+
+        /* ================= CONTAINER ================= */
+        .container {
+            padding: 55px 75px;
+        }
+
+        /* ================= HEADER ================= */
+        .banner {
+            background: linear-gradient(to right, #1e40af, #2563eb);
+            border-radius: 20px;
+            padding: 50px;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .banner h1 {
+            font-size: 38px;
+        }
+
+        .banner p {
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+
+        /* ================= QUIZ CARDS ================= */
+        .quiz-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .quiz-card {
+            background: white;
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.08);
+            transition: 0.3s;
+        }
+
+        .quiz-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .quiz-card h3 {
+            margin-bottom: 10px;
+        }
+
+        .quiz-card p {
+            color: gray;
+            font-size: 14px;
+        }
+
+        .quiz-card a {
+            display: inline-block;
+            margin-top: 12px;
+            font-weight: bold;
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        .quiz-card a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR (FIXED) ================= -->
+<nav>
+    <div class="logo">🎓 Adaptive LMS</div>
+
+    <ul>
+        <!-- ✅ FIXED URLS WITH NAMESPACE -->
+        <li>
+            <a href="{% url 'student:student_dashboard' %}">
+                Home
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'student:student_progress' %}">
+                Progress
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'student:student_quizzes' %}" class="active">
+                Quizzes
+            </a>
+        </li>
+
+        <!-- ✅ FIXED LOGOUT -->
+        <li>
+            <form method="POST" action="{% url 'accounts:logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">
+                    Logout
+                </button>
+            </form>
+        </li>
+    </ul>
+</nav>
+
+<!-- ================= MAIN CONTENT ================= -->
+<div class="container">
+
+    <div class="banner">
+        <h1>📝 Quizzes</h1>
+        <p>Attempt Moodle-style quizzes and improve your learning.</p>
+    </div>
+
+    <!-- Quiz List -->
+    <div class="quiz-grid">
+
+        <div class="quiz-card">
+            <h3>Django Basics Quiz</h3>
+            <p>10 Questions • Beginner Level</p>
+            <a href="#">Start Quiz →</a>
+        </div>
+
+        <div class="quiz-card">
+            <h3>Python Fundamentals Test</h3>
+            <p>15 Questions • Intermediate</p>
+            <a href="#">Start Quiz →</a>
+        </div>
+
+        <div class="quiz-card">
+            <h3>AI Adaptive Learning Quiz</h3>
+            <p>20 Questions • Advanced</p>
+            <a href="#">Start Quiz →</a>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

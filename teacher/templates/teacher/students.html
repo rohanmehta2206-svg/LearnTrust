@@ -1,0 +1,341 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Students | Adaptive LMS</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            overflow-y: scroll;
+        }
+
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background: #f8fafc;
+        }
+
+        /* ================= NAVBAR ================= */
+        nav {
+            background: white;
+            padding: 18px 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 3px 12px rgba(0,0,0,0.05);
+        }
+
+        nav .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #111;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 28px;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            font-weight: 600;
+            color: #111827;
+            transition: 0.2s;
+        }
+
+        nav ul li a:hover {
+            color: #2563eb;
+        }
+
+        nav ul li a.active {
+            color: #2563eb;
+            border-bottom: 3px solid #2563eb;
+            padding-bottom: 6px;
+        }
+
+        /* ✅ Logout Button */
+        .logout-btn {
+            background: #2563eb;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #1e40af;
+        }
+
+        /* ================= MAIN CONTAINER ================= */
+        .container {
+            padding: 55px 75px;
+        }
+
+        /* ================= HEADER BANNER ================= */
+        .header-box {
+            background: linear-gradient(to right, #1e40af, #2563eb);
+            padding: 50px;
+            border-radius: 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 55px;
+        }
+
+        .header-box h1 {
+            font-size: 40px;
+        }
+
+        .header-box p {
+            margin-top: 10px;
+            opacity: 0.9;
+            font-size: 15px;
+        }
+
+        .header-box img {
+            width: 120px;
+        }
+
+        /* ================= TOP SECTION ================= */
+        .section-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .section-top h2 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .enroll-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .enroll-btn:hover {
+            background: #1e40af;
+        }
+
+        /* ================= SEARCH BAR ================= */
+        .search-box {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+        }
+
+        .search-box button {
+            padding: 14px 20px;
+            border: none;
+            background: #2563eb;
+            color: white;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .search-box button:hover {
+            background: #1e40af;
+        }
+
+        /* ================= STUDENT TABLE ================= */
+        .student-table {
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f1f5ff;
+            padding: 18px;
+            text-align: left;
+            font-size: 15px;
+            color: #2563eb;
+        }
+
+        td {
+            padding: 18px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+            color: #333;
+        }
+
+        tr:hover {
+            background: #f9fbff;
+        }
+
+        /* ================= ACTION BUTTONS ================= */
+        .action-btn {
+            background: #2563eb;
+            color: white;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-right: 8px;
+            display: inline-block;
+        }
+
+        .action-btn:hover {
+            background: #1e40af;
+        }
+
+        .remove-btn {
+            background: #dc2626;
+        }
+
+        .remove-btn:hover {
+            background: #991b1b;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ✅ FIXED NAVBAR -->
+<nav>
+    <div class="logo">🎓 Adaptive LMS</div>
+
+    <ul>
+        <!-- ✅ FIXED URLS WITH teacher: namespace -->
+        <li><a href="{% url 'teacher:teacher_dashboard' %}">Home</a></li>
+
+        <li><a href="{% url 'teacher:teacher_manage_courses' %}">Manage Courses</a></li>
+
+        <li><a href="{% url 'teacher:teacher_students' %}" class="active">Students</a></li>
+
+        <li><a href="{% url 'teacher:teacher_assignments' %}">Assignments</a></li>
+
+        <li><a href="{% url 'teacher:teacher_gradebook' %}">Gradebook</a></li>
+
+        <!-- ✅ FIXED LOGOUT -->
+        <li>
+            <form method="POST" action="{% url 'accounts:logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">
+                    Logout
+                </button>
+            </form>
+        </li>
+    </ul>
+</nav>
+
+
+<!-- ================= MAIN CONTENT ================= -->
+<div class="container">
+
+    <!-- Banner -->
+    <div class="header-box">
+        <div>
+            <h1>👥 Students Panel</h1>
+            <p>View enrolled learners, manage enrollments, and track progress Moodle-style.</p>
+        </div>
+
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+    </div>
+
+    <!-- Section Top -->
+    <div class="section-top">
+        <h2>Enrolled Students</h2>
+        <button class="enroll-btn">+ Enroll New Student</button>
+    </div>
+
+    <!-- Search -->
+    <div class="search-box">
+        <input type="text" placeholder="Search student by name or email...">
+        <button>Search</button>
+    </div>
+
+    <!-- Student Table -->
+    <div class="student-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Email</th>
+                    <th>Course</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>Rohan Sharma</td>
+                    <td>rohan@gmail.com</td>
+                    <td>Django Web Development</td>
+                    <td>Active ✅</td>
+                    <td>
+                        <a href="#" class="action-btn">View</a>
+                        <a href="#" class="action-btn remove-btn">Remove</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Anjali Patel</td>
+                    <td>anjali@gmail.com</td>
+                    <td>Python Fundamentals</td>
+                    <td>Active ✅</td>
+                    <td>
+                        <a href="#" class="action-btn">View</a>
+                        <a href="#" class="action-btn remove-btn">Remove</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Arjun Verma</td>
+                    <td>arjun@gmail.com</td>
+                    <td>AI + Adaptive Learning</td>
+                    <td>Pending ⏳</td>
+                    <td>
+                        <a href="#" class="action-btn">Approve</a>
+                        <a href="#" class="action-btn remove-btn">Reject</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>

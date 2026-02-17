@@ -1,0 +1,319 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Teacher Dashboard | Adaptive LMS</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", sans-serif;
+            background: #f8fafc;
+        }
+
+        /* ================= NAVBAR ================= */
+        nav {
+            background: white;
+            padding: 18px 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 3px 12px rgba(0,0,0,0.05);
+        }
+
+        nav .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #111;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 28px;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            font-weight: 600;
+            color: #111827;
+            transition: 0.2s;
+        }
+
+        nav ul li a:hover {
+            color: #2563eb;
+        }
+
+        nav ul li a.active {
+            color: #2563eb;
+            border-bottom: 3px solid #2563eb;
+            padding-bottom: 6px;
+        }
+
+        /* ✅ Logout Button */
+        .logout-btn {
+            background: #2563eb;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #1e40af;
+        }
+
+        /* ================= DASHBOARD ================= */
+        .container {
+            padding: 55px 75px;
+        }
+
+        .banner {
+            background: linear-gradient(to right, #1e40af, #2563eb);
+            border-radius: 20px;
+            padding: 50px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 55px;
+        }
+
+        .banner h1 {
+            font-size: 40px;
+            margin: 0;
+        }
+
+        .banner p {
+            margin-top: 10px;
+            font-size: 15px;
+            opacity: 0.9;
+        }
+
+        /* ================= TOOL CARDS ================= */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 60px;
+        }
+
+        .card {
+            background: white;
+            padding: 28px;
+            border-radius: 18px;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.08);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+        }
+
+        .card img {
+            width: 55px;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: gray;
+        }
+
+        .card a {
+            display: inline-block;
+            margin-top: 12px;
+            font-weight: 600;
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        /* ================= COURSE SECTION ================= */
+        .section-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .course-box {
+            background: white;
+            border-radius: 18px;
+            padding: 22px;
+            margin-bottom: 18px;
+            box-shadow: 0px 3px 12px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .course-box h4 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .course-box span {
+            font-size: 13px;
+            color: gray;
+        }
+
+        .course-actions a {
+            margin-left: 15px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        .course-actions a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ✅ Teacher Navbar -->
+<nav>
+    <div class="logo">🎓 Adaptive LMS</div>
+
+    <ul>
+        <!-- ✅ Teacher Home -->
+        <li>
+            <a href="{% url 'teacher:teacher_dashboard' %}"
+               class="{% if request.path == '/teacher/dashboard/' %}active{% endif %}">
+                Home
+            </a>
+        </li>
+
+        <!-- ✅ Manage Courses -->
+        <li>
+            <a href="{% url 'teacher:teacher_manage_courses' %}">
+                Manage Courses
+            </a>
+        </li>
+
+        <!-- ✅ Students -->
+        <li>
+            <a href="{% url 'teacher:teacher_students' %}">
+                Students
+            </a>
+        </li>
+
+        <!-- ✅ Assignments -->
+        <li>
+            <a href="{% url 'teacher:teacher_assignments' %}">
+                Assignments
+            </a>
+        </li>
+
+        <!-- ✅ Gradebook -->
+        <li>
+            <a href="{% url 'teacher:teacher_gradebook' %}">
+                Gradebook
+            </a>
+        </li>
+
+        <!-- ✅ Logout Working -->
+        <li>
+            <form method="POST" action="{% url 'accounts:logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">
+                    Logout
+                </button>
+            </form>
+        </li>
+    </ul>
+</nav>
+
+
+<!-- ✅ Teacher Dashboard Content -->
+<div class="container">
+
+    <!-- Banner -->
+    <div class="banner">
+        <div>
+            <h1>Welcome Teacher 👨‍🏫</h1>
+            <p>
+                Moodle-style instructor dashboard to manage courses, students, quizzes, and grading.
+            </p>
+        </div>
+
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135810.png" width="120">
+    </div>
+
+    <!-- Tools -->
+    <div class="grid">
+
+        <div class="card">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png">
+            <h3>Course Management</h3>
+            <p>Create, update, and organize Moodle-integrated courses.</p>
+            <a href="{% url 'teacher:teacher_manage_courses' %}">Manage Courses →</a>
+        </div>
+
+        <div class="card">
+            <img src="https://cdn-icons-png.flaticon.com/512/681/681494.png">
+            <h3>Enrolled Students</h3>
+            <p>View participants list and manage student enrollments.</p>
+            <a href="{% url 'teacher:teacher_students' %}">View Students →</a>
+        </div>
+
+        <div class="card">
+            <img src="https://cdn-icons-png.flaticon.com/512/1828/1828640.png">
+            <h3>Assignments & Submissions</h3>
+            <p>Create assignments and review student submissions.</p>
+            <a href="{% url 'teacher:teacher_assignments' %}">Manage Assignments →</a>
+        </div>
+
+        <div class="card">
+            <img src="https://cdn-icons-png.flaticon.com/512/906/906175.png">
+            <h3>Quiz Question Bank</h3>
+            <p>Build Moodle-style quizzes and question bank system.</p>
+            <a href="{% url 'teacher:quiz_question_bank' %}">Open Quiz Bank →</a>
+        </div>
+
+        <div class="card">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png">
+            <h3>Gradebook</h3>
+            <p>Track marks, evaluations, and student performance reports.</p>
+            <a href="{% url 'teacher:teacher_gradebook' %}">Open Gradebook →</a>
+        </div>
+
+    </div>
+
+    <!-- Courses List -->
+    <h2 class="section-title">📚 My Teaching Courses</h2>
+
+    <div class="course-box">
+        <div>
+            <h4>Django Web Development</h4>
+            <span>Enrolled: 120 Students | Moodle Sync Enabled</span>
+        </div>
+
+        <div class="course-actions">
+            <a href="#">Students</a>
+            <a href="#">Assignments</a>
+            <a href="#">Quizzes</a>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

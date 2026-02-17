@@ -1,0 +1,251 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Dashboard | Adaptive LMS</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", sans-serif;
+            background: #f8fafc;
+        }
+
+        /* ================= NAVBAR ================= */
+        nav {
+            background: white;
+            padding: 18px 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 3px 12px rgba(0,0,0,0.05);
+        }
+
+        nav .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #111;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 28px;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            font-weight: 600;
+            color: #111827;
+            transition: 0.2s;
+        }
+
+        nav ul li a:hover {
+            color: #2563eb;
+        }
+
+        nav ul li a.active {
+            color: #2563eb;
+            border-bottom: 3px solid #2563eb;
+            padding-bottom: 6px;
+        }
+
+        /* ✅ Logout Button */
+        .logout-btn {
+            background: #2563eb;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 14px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #1e40af;
+        }
+
+        /* ================= MAIN CONTAINER ================= */
+        .container {
+            padding: 55px 75px;
+        }
+
+        /* ================= WELCOME BOX ================= */
+        .welcome-box {
+            background: linear-gradient(to right, #2563eb, #1e40af);
+            padding: 45px;
+            border-radius: 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .welcome-box h1 {
+            margin: 0;
+            font-size: 38px;
+        }
+
+        .welcome-box p {
+            margin-top: 10px;
+            opacity: 0.9;
+            font-size: 15px;
+        }
+
+        /* ================= DASHBOARD GRID ================= */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+            margin-top: 45px;
+        }
+
+        .card {
+            background: white;
+            padding: 28px;
+            border-radius: 18px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+        }
+
+        .card img {
+            width: 55px;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .card p {
+            margin-top: 8px;
+            color: gray;
+            font-size: 14px;
+        }
+
+        .card a {
+            display: inline-block;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #2563eb;
+            font-weight: 600;
+        }
+    </style>
+
+</head>
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav>
+    <div class="logo">🎓 Adaptive LMS</div>
+
+    <ul>
+        <!-- ✅ FIXED STUDENT URLS -->
+        <li>
+            <a href="{% url 'student:student_dashboard' %}" class="active">
+                Home
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'student:student_courses' %}">
+                Courses
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'student:student_profile' %}">
+                Profile
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'student:student_certificates' %}">
+                Certificates
+            </a>
+        </li>
+
+        <!-- ✅ Logout Working -->
+        <li>
+            <form method="POST" action="{% url 'accounts:logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">
+                    Logout
+                </button>
+            </form>
+        </li>
+    </ul>
+</nav>
+
+
+<!-- ================= MAIN CONTENT ================= -->
+<div class="container">
+
+    <!-- Welcome Box -->
+    <div class="welcome-box">
+        <div>
+            <h1>Welcome Student 👋</h1>
+            <p>Track your learning progress, unlock quizzes, and complete courses easily.</p>
+        </div>
+
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png" width="115">
+    </div>
+
+    <!-- Dashboard Features -->
+    <div class="dashboard-grid">
+
+        <div class="card">
+            <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png">
+            <h3>My Courses</h3>
+            <p>View enrolled courses and start learning instantly.</p>
+            <a href="{% url 'student:student_courses' %}">Go to Courses →</a>
+        </div>
+
+        <div class="card">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+            <h3>My Profile</h3>
+            <p>View and update your personal details.</p>
+            <a href="{% url 'student:student_profile' %}">View Profile →</a>
+        </div>
+
+        <div class="card">
+            <img src="https://cdn-icons-png.flaticon.com/512/1828/1828640.png">
+            <h3>Learning Progress</h3>
+            <p>Track completed lessons and analytics.</p>
+            <a href="{% url 'student:student_progress' %}">View Progress →</a>
+        </div>
+
+        <div class="card">
+            <img src="https://cdn-icons-png.flaticon.com/512/2920/2920277.png">
+            <h3>Quizzes</h3>
+            <p>Attempt quizzes and improve knowledge.</p>
+            <a href="{% url 'student:student_quizzes' %}">Start Quiz →</a>
+        </div>
+
+        <div class="card">
+            <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png">
+            <h3>Certificates</h3>
+            <p>Download certificates after completion.</p>
+            <a href="{% url 'student:student_certificates' %}">My Certificates →</a>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

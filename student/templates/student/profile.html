@@ -1,0 +1,266 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile | Adaptive LMS</title>
+
+    <style>
+        /* ================= GLOBAL RESET ================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background: #f8fafc;
+        }
+
+        /* ================= NAVBAR ================= */
+        nav {
+            background: white;
+            padding: 18px 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 3px 12px rgba(0,0,0,0.05);
+        }
+
+        nav .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: black;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 28px;
+            align-items: center;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            font-weight: 600;
+            color: #111827;
+            transition: 0.2s;
+            padding-bottom: 6px;
+            border-bottom: 3px solid transparent;
+        }
+
+        nav ul li a:hover {
+            color: #2563eb;
+        }
+
+        nav ul li a.active {
+            color: #2563eb;
+            border-bottom: 3px solid #2563eb;
+        }
+
+        /* Logout Button */
+        .logout-btn {
+            background: #2563eb;
+            color: white !important;
+            padding: 10px 20px;
+            border-radius: 14px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #1e40af;
+        }
+
+        /* ================= PAGE CONTAINER ================= */
+        .container {
+            padding: 55px 75px;
+        }
+
+        /* ================= PROFILE HEADER ================= */
+        .profile-header {
+            background: linear-gradient(to right, #2563eb, #1e40af);
+            padding: 50px;
+            border-radius: 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .profile-header h1 {
+            font-size: 38px;
+        }
+
+        .profile-header p {
+            margin-top: 10px;
+            opacity: 0.9;
+            font-size: 15px;
+        }
+
+        .profile-header img {
+            width: 120px;
+        }
+
+        /* ================= PROFILE GRID ================= */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+            gap: 30px;
+            margin-top: 55px;
+        }
+
+        .profile-card {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.07);
+        }
+
+        .profile-card h2 {
+            font-size: 20px;
+            color: #2563eb;
+            margin-bottom: 18px;
+        }
+
+        .profile-info p {
+            margin: 12px 0;
+            font-size: 15px;
+            color: #444;
+        }
+
+        .profile-info span {
+            font-weight: bold;
+            color: black;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #1e40af;
+        }
+
+        /* Settings List */
+        .settings-list {
+            margin-top: 15px;
+            list-style: none;
+        }
+
+        .settings-list li {
+            margin: 12px 0;
+            font-size: 15px;
+            color: #444;
+        }
+
+        .settings-list li:hover {
+            color: #2563eb;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR (FIXED) ================= -->
+<nav>
+    <div class="logo">🎓 Adaptive LMS</div>
+
+    <ul>
+        <!-- ✅ FIXED STUDENT URLS -->
+        <li><a href="{% url 'student:student_dashboard' %}">Home</a></li>
+
+        <li><a href="{% url 'student:student_courses' %}">Courses</a></li>
+
+        <li><a href="{% url 'student:student_profile' %}" class="active">
+            Profile</a></li>
+
+        <li><a href="{% url 'student:student_certificates' %}">
+            Certificates</a></li>
+
+        <!-- ✅ FIXED LOGOUT -->
+        <li>
+            <form method="POST" action="{% url 'accounts:logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">
+                    Logout
+                </button>
+            </form>
+        </li>
+    </ul>
+</nav>
+
+
+<!-- ================= MAIN CONTENT ================= -->
+<div class="container">
+
+    <!-- Profile Header -->
+    <div class="profile-header">
+        <div>
+            <h1>👤 My Profile</h1>
+            <p>View and manage your student account details.</p>
+        </div>
+
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+    </div>
+
+    <!-- Profile Cards -->
+    <div class="profile-grid">
+
+        <!-- Student Info -->
+        <div class="profile-card">
+            <h2>📌 Student Information</h2>
+
+            <div class="profile-info">
+                <p><span>Name:</span> {{ request.user.first_name }} {{ request.user.last_name }}</p>
+                <p><span>Email:</span> {{ request.user.email }}</p>
+                <p><span>Username:</span> {{ request.user.username }}</p>
+                <p><span>Joined:</span> {{ request.user.date_joined|date:"d M Y" }}</p>
+            </div>
+
+            <!-- ✅ FIXED EDIT PROFILE -->
+            <a href="{% url 'student:student_edit_profile' %}" class="btn">
+                Edit Profile →
+            </a>
+        </div>
+
+        <!-- Account Settings -->
+        <div class="profile-card">
+            <h2>⚙ Account Settings</h2>
+
+            <ul class="settings-list">
+                <li>🔒 Change Password</li>
+                <li>📩 Update Email Address</li>
+                <li>🚪 Logout Anytime</li>
+            </ul>
+
+            <!-- ✅ FIXED SETTINGS -->
+            <a href="{% url 'student:student_settings' %}" class="btn">
+                Go to Settings →
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

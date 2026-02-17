@@ -1,0 +1,181 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Profile | Adaptive LMS</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", sans-serif;
+            background: #f8fafc;
+        }
+
+        /* ================= NAVBAR ================= */
+        nav {
+            background: white;
+            padding: 18px 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 3px 12px rgba(0,0,0,0.05);
+        }
+
+        nav .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 28px;
+            align-items: center;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            font-weight: 600;
+            color: #111827;
+            padding-bottom: 6px;
+            border-bottom: 3px solid transparent;
+            transition: 0.2s;
+        }
+
+        nav ul li a:hover {
+            color: #2563eb;
+        }
+
+        nav ul li a.active {
+            color: #2563eb;
+            border-bottom: 3px solid #2563eb;
+        }
+
+        /* Logout Button */
+        .logout-btn {
+            background: #2563eb;
+            color: white !important;
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #1e40af;
+        }
+
+        /* ================= MAIN CONTENT ================= */
+        .container {
+            padding: 60px 80px;
+        }
+
+        .box {
+            background: white;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.08);
+            max-width: 600px;
+        }
+
+        h1 {
+            margin-bottom: 15px;
+        }
+
+        p {
+            color: gray;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 6px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+
+        button {
+            margin-top: 25px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            background: #2563eb;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1e40af;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR (FIXED) ================= -->
+<nav>
+    <div class="logo">🎓 Adaptive LMS</div>
+
+    <ul>
+        <!-- ✅ FIXED WITH NAMESPACE -->
+        <li>
+            <a href="{% url 'student:student_dashboard' %}">
+                Home
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'student:student_profile' %}" class="active">
+                Profile
+            </a>
+        </li>
+
+        <!-- ✅ REAL LOGOUT -->
+        <li>
+            <form method="POST" action="{% url 'accounts:logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">
+                    Logout
+                </button>
+            </form>
+        </li>
+    </ul>
+</nav>
+
+<!-- ================= PAGE CONTENT ================= -->
+<div class="container">
+    <div class="box">
+        <h1>✏ Edit Profile</h1>
+        <p>Update your student information below.</p>
+
+        <!-- ✅ Proper Form -->
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <label>Name</label>
+            <input type="text" name="name" placeholder="Enter your name">
+
+            <label>Email</label>
+            <input type="email" name="email" placeholder="Enter your email">
+
+            <label>Profile Photo</label>
+            <input type="file" name="photo">
+
+            <button type="submit">Save Changes</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,285 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Certificates | Adaptive LMS</title>
+
+    <style>
+        /* ================= GLOBAL RESET ================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background: #f8fafc;
+        }
+
+        /* ================= NAVBAR ================= */
+        nav {
+            background: white;
+            padding: 18px 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 3px 12px rgba(0,0,0,0.05);
+        }
+
+        nav .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: black;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 28px;
+            align-items: center;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            font-weight: 600;
+            color: #111827;
+            transition: 0.2s;
+            padding-bottom: 6px;
+            border-bottom: 3px solid transparent;
+        }
+
+        nav ul li a:hover {
+            color: #2563eb;
+        }
+
+        nav ul li a.active {
+            color: #2563eb;
+            border-bottom: 3px solid #2563eb;
+        }
+
+        /* Logout Button */
+        .logout-btn {
+            background: #2563eb;
+            color: white !important;
+            padding: 10px 20px;
+            border-radius: 14px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #1e40af;
+        }
+
+        /* ================= PAGE CONTAINER ================= */
+        .container {
+            padding: 55px 75px;
+        }
+
+        /* ================= HEADER SECTION ================= */
+        .cert-header {
+            background: linear-gradient(to right, #2563eb, #1e40af);
+            padding: 50px;
+            border-radius: 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cert-header h1 {
+            font-size: 38px;
+        }
+
+        .cert-header p {
+            margin-top: 10px;
+            opacity: 0.9;
+            font-size: 15px;
+        }
+
+        .cert-header img {
+            width: 125px;
+        }
+
+        /* ================= CERTIFICATES GRID ================= */
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 55px;
+        }
+
+        .cert-card {
+            background: white;
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.07);
+            transition: 0.3s;
+        }
+
+        .cert-card:hover {
+            transform: translateY(-7px);
+        }
+
+        .cert-card img {
+            width: 60px;
+            margin-bottom: 15px;
+        }
+
+        .cert-card h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .cert-card p {
+            margin: 10px 0;
+            color: gray;
+            font-size: 14px;
+        }
+
+        /* Button */
+        .btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #1e40af;
+        }
+
+        /* Locked Button */
+        .btn.locked {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        /* ================= EMPTY STATE ================= */
+        .empty-box {
+            margin-top: 60px;
+            text-align: center;
+            padding: 45px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.06);
+        }
+
+        .empty-box img {
+            width: 110px;
+            margin-bottom: 20px;
+        }
+
+        .empty-box h2 {
+            font-size: 22px;
+        }
+
+        .empty-box p {
+            color: gray;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR (FIXED) ================= -->
+<nav>
+    <div class="logo">🎓 Adaptive LMS</div>
+
+    <ul>
+        <!-- ✅ FIXED STUDENT URLS -->
+        <li><a href="{% url 'student:student_dashboard' %}">Home</a></li>
+
+        <li><a href="{% url 'student:student_courses' %}">Courses</a></li>
+
+        <li><a href="{% url 'student:student_profile' %}">Profile</a></li>
+
+        <li>
+            <a href="{% url 'student:student_certificates' %}" class="active">
+                Certificates
+            </a>
+        </li>
+
+        <!-- ✅ FIXED LOGOUT -->
+        <li>
+            <form method="POST" action="{% url 'accounts:logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">
+                    Logout
+                </button>
+            </form>
+        </li>
+    </ul>
+</nav>
+
+
+<!-- ================= MAIN CONTENT ================= -->
+<div class="container">
+
+    <!-- Header -->
+    <div class="cert-header">
+        <div>
+            <h1>🏆 My Certificates</h1>
+            <p>Download certificates after completing your Moodle courses successfully.</p>
+        </div>
+
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135710.png">
+    </div>
+
+
+    <!-- Certificates Section -->
+    <div class="cert-grid">
+
+        <!-- Completed Certificate -->
+        <div class="cert-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png">
+            <h3>Django Web Development</h3>
+            <p>Status: Completed ✅</p>
+            <a href="#" class="btn">Download Certificate →</a>
+        </div>
+
+        <div class="cert-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png">
+            <h3>Python Fundamentals</h3>
+            <p>Status: Completed ✅</p>
+            <a href="#" class="btn">Download Certificate →</a>
+        </div>
+
+        <!-- Locked Certificate -->
+        <div class="cert-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png">
+            <h3>Artificial Intelligence</h3>
+            <p>Status: In Progress ⏳</p>
+            <a href="#" class="btn locked">Locked Until Completion</a>
+        </div>
+
+    </div>
+
+
+    <!-- Empty Message -->
+    <div class="empty-box">
+        <img src="https://cdn-icons-png.flaticon.com/512/747/747310.png">
+        <h2>No More Certificates Yet</h2>
+        <p>Complete more Moodle courses to unlock new certificates.</p>
+    </div>
+
+</div>
+
+</body>
+</html>

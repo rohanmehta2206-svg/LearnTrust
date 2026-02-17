@@ -1,0 +1,296 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Users | Adaptive LMS</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", sans-serif;
+            background: #f8fafc;
+        }
+
+        nav {
+            background: white;
+            padding: 18px 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 3px 12px rgba(0,0,0,0.05);
+        }
+
+        nav .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #111;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 28px;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        nav ul li a.active {
+            color: #2563eb;
+            border-bottom: 3px solid #2563eb;
+            padding-bottom: 6px;
+        }
+
+        /* ✅ Logout Button */
+        .logout-btn {
+            background: #2563eb;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #1e40af;
+        }
+
+        .container {
+            padding: 55px 75px;
+        }
+
+        .banner {
+            background: linear-gradient(to right, #1e40af, #2563eb);
+            border-radius: 20px;
+            padding: 45px;
+            color: white;
+            margin-bottom: 35px;
+        }
+
+        .banner h1 {
+            font-size: 38px;
+        }
+
+        /* Messages */
+        .msg {
+            padding: 14px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+
+        .msg-success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .msg-error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .msg-info {
+            background: #e0f2fe;
+            color: #075985;
+        }
+
+        .table-box {
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 45px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f1f5ff;
+            padding: 18px;
+            text-align: left;
+            color: #2563eb;
+        }
+
+        td {
+            padding: 18px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:hover {
+            background: #f9fbff;
+        }
+
+        .btn {
+            padding: 7px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            text-decoration: none;
+            margin-right: 6px;
+            display: inline-block;
+        }
+
+        .btn-approve {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-reject {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-approved {
+            background: #16a34a;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 10px;
+            font-size: 13px;
+        }
+
+        h2 {
+            margin: 20px 0;
+            font-size: 22px;
+            color: #111827;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ✅ NAVBAR -->
+<nav>
+    <div class="logo">🎓 Adaptive LMS</div>
+
+    <ul>
+        <li><a href="{% url 'adminpanel:admin_dashboard' %}">Home</a></li>
+
+        <li>
+            <a href="{% url 'adminpanel:admin_manage_users' %}" class="active">
+                Manage Users
+            </a>
+        </li>
+
+        <li><a href="{% url 'adminpanel:admin_courses' %}">Courses</a></li>
+        <li><a href="{% url 'adminpanel:admin_reports' %}">Reports</a></li>
+
+        <!-- ✅ FIXED LOGOUT (POST METHOD) -->
+        <li>
+            <form method="POST" action="{% url 'accounts:logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">
+                    Logout
+                </button>
+            </form>
+        </li>
+    </ul>
+</nav>
+
+
+<div class="container">
+
+    <div class="banner">
+        <h1>👥 Manage Teachers</h1>
+        <p>Approve or reject instructor accounts before they can login.</p>
+    </div>
+
+    <!-- ✅ Django Messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="msg msg-{{ message.level_tag }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- Pending Instructors -->
+    <h2>⏳ Pending Instructor Requests</h2>
+
+    <div class="table-box">
+        <table>
+            <thead>
+                <tr>
+                    <th>Instructor</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for instructor in pending_instructors %}
+                <tr>
+                    <td>{{ instructor.user.first_name }} {{ instructor.user.last_name }}</td>
+                    <td>{{ instructor.user.email }}</td>
+                    <td>⏳ Pending</td>
+                    <td>
+                        <a href="{% url 'adminpanel:approve_instructor' instructor.id %}" class="btn btn-approve">
+                            Approve
+                        </a>
+
+                        <a href="{% url 'adminpanel:reject_instructor' instructor.id %}" class="btn btn-reject">
+                            Reject
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" style="text-align:center; padding:20px;">
+                        No pending instructors 🎉
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Approved Instructors -->
+    <h2>✅ Approved Instructors</h2>
+
+    <div class="table-box">
+        <table>
+            <thead>
+                <tr>
+                    <th>Instructor</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for instructor in approved_instructors %}
+                <tr>
+                    <td>{{ instructor.user.first_name }} {{ instructor.user.last_name }}</td>
+                    <td>{{ instructor.user.email }}</td>
+                    <td><span class="btn-approved">Active ✅</span></td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" style="text-align:center; padding:20px;">
+                        No approved instructors yet.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>

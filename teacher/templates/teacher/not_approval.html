@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Approval Pending</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", sans-serif;
+            background: #f8fafc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .box {
+            background: white;
+            padding: 50px;
+            width: 520px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0px 8px 25px rgba(0,0,0,0.15);
+        }
+
+        h1 {
+            font-size: 30px;
+            color: #dc2626;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #444;
+            margin-bottom: 25px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 22px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 12px;
+            margin: 6px;
+        }
+
+        .btn:hover {
+            background: #1e40af;
+        }
+
+        .btn-logout {
+            background: #dc2626;
+        }
+
+        .btn-logout:hover {
+            background: #991b1b;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+        <h1>⏳ Account Approval Pending</h1>
+
+        <p>
+            Your Instructor account is registered successfully,
+            but it is still waiting for Admin Approval.
+        </p>
+
+        <p>
+            Please come back after approval.
+        </p>
+
+        <!-- Back to Login -->
+        <a href="{% url 'login' %}" class="btn">
+            Go Back to Login
+        </a>
+
+        <!-- Logout -->
+        <a href="{% url 'logout' %}" class="btn btn-logout">
+            Logout
+        </a>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,180 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Courses | Adaptive LMS</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", sans-serif;
+            background: #f8fafc;
+        }
+
+        nav {
+            background: white;
+            padding: 18px 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 3px 12px rgba(0,0,0,0.05);
+        }
+
+        nav .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 28px;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            font-weight: 600;
+            color: #111;
+        }
+
+        nav ul li a.active {
+            color: #2563eb;
+            border-bottom: 3px solid #2563eb;
+            padding-bottom: 6px;
+        }
+
+        /* ✅ Logout Button */
+        .logout-btn {
+            background: #2563eb;
+            padding: 8px 16px;
+            border-radius: 10px;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #1e40af;
+        }
+
+        .container {
+            padding: 55px 75px;
+        }
+
+        .banner {
+            background: linear-gradient(to right, #1e40af, #2563eb);
+            border-radius: 20px;
+            padding: 45px;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .course-card {
+            background: white;
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+
+        .course-card h3 {
+            margin: 0;
+        }
+
+        .course-card p {
+            color: gray;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .btn-approve {
+            background: #16a34a;
+            color: white;
+        }
+
+        .btn-delete {
+            background: #dc2626;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ✅ NAVBAR -->
+<nav>
+    <div class="logo">🎓 Adaptive LMS</div>
+
+    <ul>
+        <li><a href="{% url 'adminpanel:admin_dashboard' %}">Home</a></li>
+
+        <li>
+            <a href="{% url 'adminpanel:admin_manage_users' %}">
+                Manage Users
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'adminpanel:admin_courses' %}" class="active">
+                Courses
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'adminpanel:admin_reports' %}">
+                Reports
+            </a>
+        </li>
+
+        <!-- ✅ FIXED LOGOUT -->
+        <li>
+            <form method="POST" action="{% url 'accounts:logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">
+                    Logout
+                </button>
+            </form>
+        </li>
+    </ul>
+</nav>
+
+
+<!-- ================= CONTENT ================= -->
+<div class="container">
+
+    <div class="banner">
+        <h1>📚 Course Management</h1>
+        <p>Approve or manage Moodle-integrated courses.</p>
+    </div>
+
+    <!-- Example Courses -->
+    <div class="course-card">
+        <h3>Django Web Development</h3>
+        <p>Status: Pending Approval ⏳</p>
+        <a href="#" class="btn btn-approve">Approve</a>
+        <a href="#" class="btn btn-delete">Delete</a>
+    </div>
+
+    <div class="course-card">
+        <h3>Python Fundamentals</h3>
+        <p>Status: Active ✅</p>
+        <a href="#" class="btn btn-delete">Remove</a>
+    </div>
+
+</div>
+
+</body>
+</html>

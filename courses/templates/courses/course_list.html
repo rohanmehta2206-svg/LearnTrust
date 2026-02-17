@@ -118,7 +118,6 @@
       transform: translateY(-8px);
     }
 
-    /* ✅ Better Image Styling */
     .course-card img {
       width: 100%;
       height: 180px;
@@ -186,12 +185,13 @@
       <ul>
         <li><a href="/">Home</a></li>
         <li><a href="/courses/" class="active">Courses</a></li>
-         <li><a href="/about/">About</a></li>
+        <li><a href="/about/">About</a></li>
         <li><a href="/contact/">Contact</a></li>
       </ul>
     </nav>
 
-    <a href="{% url 'login' %}" class="login-btn">Login</a>
+    <!-- ✅ FIXED LOGIN URL -->
+    <a href="{% url 'accounts:login' %}" class="login-btn">Login</a>
   </header>
 
 
@@ -208,7 +208,6 @@
   <!-- ================= COURSES LIST ================= -->
   <section class="courses-container">
 
-    <!-- Course 1 -->
     <div class="course-card">
       <img src="https://cdn-icons-png.flaticon.com/512/2721/2721297.png">
       <div class="course-content">
@@ -218,7 +217,6 @@
       </div>
     </div>
 
-    <!-- Course 2 -->
     <div class="course-card">
       <img src="https://cdn-icons-png.flaticon.com/512/1006/1006363.png">
       <div class="course-content">
@@ -228,7 +226,6 @@
       </div>
     </div>
 
-    <!-- Course 3 -->
     <div class="course-card">
       <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png">
       <div class="course-content">
@@ -238,7 +235,6 @@
       </div>
     </div>
 
-    <!-- Course 4 -->
     <div class="course-card">
       <img src="https://cdn-icons-png.flaticon.com/512/4248/4248443.png">
       <div class="course-content">

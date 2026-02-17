@@ -1,0 +1,233 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Course | Adaptive LMS</title>
+
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background: #f8fafc;
+            margin: 0;
+        }
+
+        /* ================= NAVBAR ================= */
+        nav {
+            background: white;
+            padding: 18px 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 3px 12px rgba(0,0,0,0.05);
+        }
+
+        nav .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #111;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        /* ================= FORM CONTAINER ================= */
+        .page-container {
+            max-width: 900px;
+            margin: 60px auto;
+            background: white;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #1e40af;
+        }
+
+        .subtitle {
+            color: gray;
+            margin-bottom: 35px;
+            font-size: 15px;
+        }
+
+        /* ================= SECTION TITLE ================= */
+        .section-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: #111;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 8px;
+        }
+
+        /* ================= FORM FIELD ================= */
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #111827;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid #d1d5db;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus, select:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.2);
+        }
+
+        small {
+            color: gray;
+            font-size: 13px;
+        }
+
+        /* ================= BUTTONS ================= */
+        .btn-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-back {
+            background: #f1f5f9;
+            color: #111;
+        }
+
+        .btn-back:hover {
+            background: #e2e8f0;
+        }
+
+        .btn-save {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-save:hover {
+            background: #1e40af;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav>
+    <div class="logo">🎓 Adaptive LMS</div>
+    <a href="{% url 'teacher_manage_courses' %}">⬅ Back</a>
+</nav>
+
+<!-- ================= FORM PAGE ================= -->
+<div class="page-container">
+
+    <h1>📘 Add a New Course</h1>
+    <p class="subtitle">
+        Create a Moodle-integrated course under a category.
+    </p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <!-- Section -->
+        <div class="section-title">General</div>
+
+        <!-- Course Full Name -->
+        <div class="form-group">
+            <label>Course Full Name *</label>
+            <input type="text" name="fullname" placeholder="e.g. Python for Beginners" required>
+        </div>
+
+        <!-- Course Short Name -->
+        <div class="form-group">
+            <label>Course Short Name *</label>
+            <input type="text" name="shortname" placeholder="e.g. PY101" required>
+            <small>Short name must be unique in Moodle</small>
+        </div>
+
+        <!-- Category -->
+        <div class="form-group">
+            <label>Course Category *</label>
+            <select name="category" required>
+                <option value="">-- Select Category --</option>
+                {% for cat in categories %}
+                    <option value="{{ cat.id }}">{{ cat.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Teacher -->
+        <div class="form-group">
+            <label>Teacher *</label>
+            <select name="teacher" required>
+                <option value="">-- Select Teacher --</option>
+                <option value="{{ request.user.id }}">{{ request.user.username }}</option>
+            </select>
+        </div>
+
+        <!-- Visibility -->
+        <div class="form-group">
+            <label>Course Visibility</label>
+            <select name="visibility">
+                <option value="1">Show</option>
+                <option value="0">Hide</option>
+            </select>
+        </div>
+
+        <!-- Start Date -->
+        <div class="form-group">
+            <label>Course Start Date *</label>
+            <input type="date" name="startdate" required>
+        </div>
+
+        <!-- End Date -->
+        <div class="form-group">
+            <label>Course End Date</label>
+            <input type="date" name="enddate">
+        </div>
+
+        <!-- Buttons -->
+        <div class="btn-row">
+            <a href="{% url 'teacher_manage_courses' %}">
+                <button type="button" class="btn btn-back">
+                    ← Back to Dashboard
+                </button>
+            </a>
+
+            <button type="submit" class="btn btn-save">
+                Save & Display
+            </button>
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+</html>

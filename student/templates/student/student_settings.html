@@ -1,0 +1,291 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Settings | Adaptive LMS</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", sans-serif;
+            background: #f8fafc;
+        }
+
+        /* ================= NAVBAR ================= */
+        nav {
+            background: white;
+            padding: 18px 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 3px 12px rgba(0,0,0,0.05);
+        }
+
+        nav .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #111;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 28px;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            font-weight: 600;
+            color: #111827;
+            padding-bottom: 6px;
+            border-bottom: 3px solid transparent;
+            transition: 0.2s;
+        }
+
+        nav ul li a:hover {
+            color: #2563eb;
+        }
+
+        nav ul li a.active {
+            color: #2563eb;
+            border-bottom: 3px solid #2563eb;
+        }
+
+        /* Logout Button */
+        .logout-btn {
+            background: #2563eb;
+            color: white !important;
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #1e40af;
+        }
+
+        /* ================= MAIN CONTAINER ================= */
+        .container {
+            padding: 55px 75px;
+        }
+
+        /* ================= HEADER ================= */
+        .banner {
+            background: linear-gradient(to right, #1e40af, #2563eb);
+            border-radius: 20px;
+            padding: 50px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 45px;
+        }
+
+        .banner h1 {
+            font-size: 40px;
+            margin: 0;
+        }
+
+        .banner p {
+            margin-top: 10px;
+            font-size: 15px;
+            opacity: 0.9;
+        }
+
+        .banner img {
+            width: 110px;
+        }
+
+        /* ================= SETTINGS CARD ================= */
+        .settings-box {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0px 4px 18px rgba(0,0,0,0.08);
+            max-width: 850px;
+        }
+
+        .settings-box h2 {
+            font-size: 24px;
+            margin-bottom: 25px;
+            color: #2563eb;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+        }
+
+        /* Profile Upload */
+        .profile-upload {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .profile-upload img {
+            width: 85px;
+            height: 85px;
+            border-radius: 50%;
+            border: 3px solid #2563eb;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+
+        .save-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .save-btn:hover {
+            background: #1e40af;
+        }
+
+        .password-btn {
+            background: #f1f5ff;
+            color: #2563eb;
+            margin-left: 12px;
+        }
+
+        .password-btn:hover {
+            background: #2563eb;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ✅ NAVBAR (FIXED WITH NAMESPACE) -->
+<nav>
+    <div class="logo">🎓 Adaptive LMS</div>
+
+    <ul>
+        <li>
+            <a href="{% url 'student:student_dashboard' %}">
+                Home
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'student:student_profile' %}">
+                Profile
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'student:student_settings' %}" class="active">
+                Settings
+            </a>
+        </li>
+
+        <!-- ✅ REAL LOGOUT -->
+        <li>
+            <form method="POST" action="{% url 'accounts:logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">
+                    Logout
+                </button>
+            </form>
+        </li>
+    </ul>
+</nav>
+
+
+<!-- ================= SETTINGS PAGE ================= -->
+<div class="container">
+
+    <!-- Banner -->
+    <div class="banner">
+        <div>
+            <h1>⚙ Student Settings</h1>
+            <p>Update your profile details and manage your account securely.</p>
+        </div>
+
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+    </div>
+
+
+    <!-- Settings Form -->
+    <div class="settings-box">
+
+        <h2>👤 Account Settings</h2>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Profile Photo -->
+            <div class="profile-upload">
+                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Profile">
+
+                <div>
+                    <label>Upload Profile Photo</label>
+                    <input type="file" name="profile_photo">
+                </div>
+            </div>
+
+            <!-- Full Name -->
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" name="fullname" placeholder="Enter your full name">
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" name="email" placeholder="Update your email">
+            </div>
+
+            <!-- Save Button -->
+            <button type="submit" class="btn save-btn">
+                Save Changes ✅
+            </button>
+
+            <!-- Change Password -->
+            <a href="{% url 'student:student_change_password' %}" class="btn password-btn">
+                Change Password 🔒
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>
