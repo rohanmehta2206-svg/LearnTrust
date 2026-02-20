@@ -39,16 +39,16 @@
 
         /* ================= FORM CONTAINER ================= */
         .page-container {
-            max-width: 900px;
+            max-width: 950px;
             margin: 60px auto;
             background: white;
-            padding: 50px;
-            border-radius: 20px;
+            padding: 55px;
+            border-radius: 22px;
             box-shadow: 0 8px 25px rgba(0,0,0,0.08);
         }
 
         h1 {
-            font-size: 32px;
+            font-size: 34px;
             margin-bottom: 10px;
             color: #1e40af;
         }
@@ -59,14 +59,22 @@
             font-size: 15px;
         }
 
-        /* ================= SECTION TITLE ================= */
+        /* ================= SECTION BOX ================= */
+        .section-box {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 35px;
+            margin-bottom: 35px;
+            border: 1px solid #e5e7eb;
+        }
+
         .section-title {
             font-weight: bold;
-            margin-bottom: 15px;
             font-size: 18px;
             color: #111;
             border-bottom: 2px solid #e5e7eb;
-            padding-bottom: 8px;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
         }
 
         /* ================= FORM FIELD ================= */
@@ -81,7 +89,7 @@
             color: #111827;
         }
 
-        input, select {
+        input, select, textarea {
             width: 100%;
             padding: 14px;
             border-radius: 12px;
@@ -90,7 +98,12 @@
             outline: none;
         }
 
-        input:focus, select:focus {
+        textarea {
+            resize: none;
+            min-height: 110px;
+        }
+
+        input:focus, select:focus, textarea:focus {
             border-color: #2563eb;
             box-shadow: 0 0 0 3px rgba(37,99,235,0.2);
         }
@@ -98,6 +111,16 @@
         small {
             color: gray;
             font-size: 13px;
+        }
+
+        /* ================= ERROR BOX ================= */
+        .error-box {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            font-size: 14px;
         }
 
         /* ================= BUTTONS ================= */
@@ -108,7 +131,7 @@
         }
 
         .btn {
-            padding: 14px 28px;
+            padding: 14px 30px;
             border-radius: 14px;
             font-size: 15px;
             font-weight: bold;
@@ -141,7 +164,7 @@
 <!-- ================= NAVBAR ================= -->
 <nav>
     <div class="logo">🎓 Adaptive LMS</div>
-    <a href="{% url 'teacher_manage_courses' %}">⬅ Back</a>
+    <a href="{% url 'teacher:teacher_manage_courses' %}">⬅ Back</a>
 </nav>
 
 <!-- ================= FORM PAGE ================= -->
@@ -149,79 +172,148 @@
 
     <h1>📘 Add a New Course</h1>
     <p class="subtitle">
-        Create a Moodle-integrated course under a category.
+        Configure your course settings. This course will automatically sync with Moodle.
     </p>
 
-    <form method="POST">
+    <!-- ✅ Show Errors -->
+    {% if form.errors %}
+        <div class="error-box">
+            ❌ Please fix the errors below and try again.
+        </div>
+    {% endif %}
+
+    <!-- ================= FORM START ================= -->
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
 
-        <!-- Section -->
-        <div class="section-title">General</div>
+        <!-- ===================================================== -->
+        <!-- ✅ GENERAL SETTINGS -->
+        <!-- ===================================================== -->
+        <div class="section-box">
+            <div class="section-title">General Settings</div>
 
-        <!-- Course Full Name -->
-        <div class="form-group">
-            <label>Course Full Name *</label>
-            <input type="text" name="fullname" placeholder="e.g. Python for Beginners" required>
+            <div class="form-group">
+                <label>Course Full Name *</label>
+                {{ form.full_name }}
+            </div>
+
+            <div class="form-group">
+                <label>Course Short Name *</label>
+                {{ form.short_name }}
+                <small>Short name must be unique</small>
+            </div>
+
+            <div class="form-group">
+                <label>Course Category *</label>
+                {{ form.category }}
+            </div>
+
+            <div class="form-group">
+                <label>Course Visibility</label>
+                {{ form.visibility }}
+            </div>
+
+            <div class="form-group">
+                <label>Course Start Date *</label>
+                {{ form.start_date }}
+            </div>
+
+            <div class="form-group">
+                <label>Course End Date</label>
+                {{ form.end_date }}
+            </div>
         </div>
 
-        <!-- Course Short Name -->
-        <div class="form-group">
-            <label>Course Short Name *</label>
-            <input type="text" name="shortname" placeholder="e.g. PY101" required>
-            <small>Short name must be unique in Moodle</small>
+        <!-- ===================================================== -->
+        <!-- ✅ DESCRIPTION SECTION -->
+        <!-- ===================================================== -->
+        <div class="section-box">
+            <div class="section-title">Description</div>
+
+            <div class="form-group">
+                <label>Course Summary</label>
+                {{ form.description }}
+            </div>
+
+            <div class="form-group">
+                <label>Course Image (Optional)</label>
+                <input type="file" name="courseimage" accept=".jpg,.jpeg,.png">
+                <small>Recommended size: 800×400px • Max 2MB</small>
+            </div>
         </div>
 
-        <!-- Category -->
-        <div class="form-group">
-            <label>Course Category *</label>
-            <select name="category" required>
-                <option value="">-- Select Category --</option>
-                {% for cat in categories %}
-                    <option value="{{ cat.id }}">{{ cat.name }}</option>
-                {% endfor %}
-            </select>
+        <!-- ===================================================== -->
+        <!-- ✅ COURSE STRUCTURE -->
+        <!-- ===================================================== -->
+        <div class="section-box">
+            <div class="section-title">Course Structure</div>
+
+            <div class="form-group">
+                <label>Course Format</label>
+                <select name="format">
+                    <option value="topics">Topics Format</option>
+                    <option value="weeks">Weekly Format</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Number of Sections</label>
+                <select name="numsections">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5" selected>5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+            </div>
         </div>
 
-        <!-- Teacher -->
-        <div class="form-group">
-            <label>Teacher *</label>
-            <select name="teacher" required>
-                <option value="">-- Select Teacher --</option>
-                <option value="{{ request.user.id }}">{{ request.user.username }}</option>
-            </select>
+        <!-- ===================================================== -->
+        <!-- ✅ COMPLETION TRACKING -->
+        <!-- ===================================================== -->
+        <div class="section-box">
+            <div class="section-title">Completion Tracking</div>
+
+            <div class="form-group">
+                <label>Enable Completion Tracking</label>
+                <select name="enablecompletion">
+                    <option value="1">Enable completion tracking</option>
+                    <option value="0">Disable completion tracking</option>
+                </select>
+            </div>
         </div>
 
-        <!-- Visibility -->
-        <div class="form-group">
-            <label>Course Visibility</label>
-            <select name="visibility">
-                <option value="1">Show</option>
-                <option value="0">Hide</option>
-            </select>
+        <!-- ===================================================== -->
+        <!-- ✅ GROUP SETTINGS -->
+        <!-- ===================================================== -->
+        <div class="section-box">
+            <div class="section-title">Group Settings</div>
+
+            <div class="form-group">
+                <label>Group Mode</label>
+                <select name="groupmode">
+                    <option value="0">No groups</option>
+                    <option value="1">Separate groups</option>
+                    <option value="2">Visible groups</option>
+                </select>
+            </div>
         </div>
 
-        <!-- Start Date -->
-        <div class="form-group">
-            <label>Course Start Date *</label>
-            <input type="date" name="startdate" required>
-        </div>
-
-        <!-- End Date -->
-        <div class="form-group">
-            <label>Course End Date</label>
-            <input type="date" name="enddate">
-        </div>
-
-        <!-- Buttons -->
+        <!-- ================= BUTTONS ================= -->
         <div class="btn-row">
-            <a href="{% url 'teacher_manage_courses' %}">
+            <a href="{% url 'teacher:teacher_manage_courses' %}">
                 <button type="button" class="btn btn-back">
-                    ← Back to Dashboard
+                    ← Cancel
                 </button>
             </a>
 
             <button type="submit" class="btn btn-save">
-                Save & Display
+                ✅ Create Course
             </button>
         </div>
 

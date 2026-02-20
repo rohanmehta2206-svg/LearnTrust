@@ -193,7 +193,6 @@
     <div class="logo">🎓 Adaptive LMS</div>
 
     <ul>
-        <!-- ✅ Teacher Home -->
         <li>
             <a href="{% url 'teacher:teacher_dashboard' %}"
                class="{% if request.path == '/teacher/dashboard/' %}active{% endif %}">
@@ -201,35 +200,30 @@
             </a>
         </li>
 
-        <!-- ✅ Manage Courses -->
         <li>
             <a href="{% url 'teacher:teacher_manage_courses' %}">
                 Manage Courses
             </a>
         </li>
 
-        <!-- ✅ Students -->
         <li>
             <a href="{% url 'teacher:teacher_students' %}">
                 Students
             </a>
         </li>
 
-        <!-- ✅ Assignments -->
         <li>
             <a href="{% url 'teacher:teacher_assignments' %}">
                 Assignments
             </a>
         </li>
 
-        <!-- ✅ Gradebook -->
         <li>
             <a href="{% url 'teacher:teacher_gradebook' %}">
                 Gradebook
             </a>
         </li>
 
-        <!-- ✅ Logout Working -->
         <li>
             <form method="POST" action="{% url 'accounts:logout' %}">
                 {% csrf_token %}
@@ -259,7 +253,6 @@
 
     <!-- Tools -->
     <div class="grid">
-
         <div class="card">
             <img src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png">
             <h3>Course Management</h3>
@@ -294,22 +287,31 @@
             <p>Track marks, evaluations, and student performance reports.</p>
             <a href="{% url 'teacher:teacher_gradebook' %}">Open Gradebook →</a>
         </div>
-
     </div>
 
     <!-- Courses List -->
     <h2 class="section-title">📚 My Teaching Courses</h2>
 
+    <!-- ✅ Example Course Box -->
     <div class="course-box">
         <div>
             <h4>Django Web Development</h4>
             <span>Enrolled: 120 Students | Moodle Sync Enabled</span>
         </div>
 
+        <!-- ✅ FIXED ACTION LINKS -->
         <div class="course-actions">
-            <a href="#">Students</a>
-            <a href="#">Assignments</a>
-            <a href="#">Quizzes</a>
+            <a href="{% url 'teacher:course_detail' 1 %}?tab=students">
+                Students
+            </a>
+
+            <a href="{% url 'teacher:course_detail' 1 %}?tab=assignments">
+                Assignments
+            </a>
+
+            <a href="{% url 'teacher:course_detail' 1 %}?tab=quizzes">
+                Quizzes
+            </a>
         </div>
     </div>
 

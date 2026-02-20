@@ -1,3 +1,3 @@
 from django.contrib import admin
 
-# Register your models here.
+# No models registered here because Course model exists in teacher app.

@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 
 from teacher.models import Instructor
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
 
 
 # ======================================================
@@ -10,6 +12,42 @@ from teacher.models import Instructor
 # ======================================================
 def admin_only(user):
     return user.is_superuser
+
+
+# ======================================================
+# ✅ ADMIN LOGIN VIEW
+# ======================================================
+def admin_login(request):
+
+    error = None
+
+    if request.method == "POST":
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+
+        try:
+            # ✅ Get user by email
+            user_obj = User.objects.get(email=email)
+
+            # ✅ Authenticate using username (NOT email)
+            user = authenticate(
+                request,
+                username=user_obj.username,
+                password=password
+            )
+
+            # ✅ Allow only superuser
+            if user is not None and user.is_superuser:
+                login(request, user)
+                return redirect("adminpanel:admin_dashboard")
+
+            else:
+                error = "❌ Only Admin can login here!"
+
+        except User.DoesNotExist:
+            error = "❌ Admin account not found!"
+
+    return render(request, "adminpanel/admin_login.html", {"error": error})
 
 
 # ======================================================
@@ -38,7 +76,7 @@ def admin_manage_users(request):
 
 
 # ======================================================
-# ✅ APPROVE INSTRUCTOR
+# ✅ APPROVE INSTRUCTOR (UPDATED FIX ✅)
 # ======================================================
 @login_required
 @user_passes_test(admin_only)
@@ -54,8 +92,12 @@ def approve_instructor(request, instructor_id):
     instructor.is_approved = True
     instructor.save()
 
-    # ✅ Ensure Instructor is NOT staff
-    instructor.user.is_staff = False
+    # ✅ Teacher becomes STAFF after approval
+    instructor.user.is_staff = True
+
+    # ❌ Teacher should NOT become superuser
+    instructor.user.is_superuser = False
+
     instructor.user.save()
 
     messages.success(
@@ -63,7 +105,6 @@ def approve_instructor(request, instructor_id):
         f"✅ Instructor {instructor.user.email} approved successfully!"
     )
 
-    # ✅ FIXED REDIRECT
     return redirect("adminpanel:admin_manage_users")
 
 
@@ -80,7 +121,6 @@ def reject_instructor(request, instructor_id):
 
     messages.error(request, "❌ Instructor rejected and removed.")
 
-    # ✅ FIXED REDIRECT
     return redirect("adminpanel:admin_manage_users")
 
 

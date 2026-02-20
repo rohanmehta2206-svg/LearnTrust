@@ -17,6 +17,7 @@
       background: #f8fafc;
     }
 
+    /* ================= NAVBAR ================= */
     header {
       width: 100%;
       background: white;
@@ -37,7 +38,6 @@
     }
 
     nav {
-      margin-left: auto;
       margin-right: 30px;
     }
 
@@ -45,7 +45,6 @@
       list-style: none;
       display: flex;
       gap: 35px;
-      justify-content: flex-end;
       align-items: center;
     }
 
@@ -61,7 +60,6 @@
       border-bottom: 2px solid #2563eb;
     }
 
-    /* Buttons */
     .login-btn {
       background: #2563eb;
       color: white;
@@ -70,20 +68,18 @@
       font-weight: 600;
       text-decoration: none;
       transition: 0.3s;
-      border: none;
-      cursor: pointer;
     }
 
     .login-btn:hover {
       background: #1e40af;
     }
 
-    /* HERO */
+    /* ================= HERO SECTION ================= */
     .hero-container {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 80px 80px;
+      padding: 80px;
       gap: 50px;
     }
 
@@ -141,7 +137,7 @@
       max-width: 100%;
     }
 
-    /* FEATURES */
+    /* ================= FEATURES ================= */
     .features {
       display: flex;
       justify-content: center;
@@ -204,7 +200,7 @@
 
 <body>
 
-<!-- ✅ NAVBAR -->
+<!-- ================= NAVBAR ================= -->
 <header>
   <div class="logo">
     🎓 Adaptive Learning LMS
@@ -219,29 +215,13 @@
     </ul>
   </nav>
 
-  <!-- ✅ LOGIN / LOGOUT Dynamic -->
-  {% if user.is_authenticated %}
-
-    <!-- ✅ Proper Logout -->
-    <form method="POST" action="{% url 'accounts:logout' %}">
-      {% csrf_token %}
-      <button type="submit" class="login-btn">
-        Logout
-      </button>
-    </form>
-
-  {% else %}
-
-    <!-- ✅ Login Button -->
-    <a href="{% url 'accounts:login' %}" class="login-btn">
-      Login
-    </a>
-
-  {% endif %}
+  <!-- ALWAYS SHOW LOGIN ON HOMEPAGE -->
+  <a href="{% url 'accounts:login' %}" class="login-btn">
+    Login
+  </a>
 </header>
 
-
-<!-- HERO SECTION -->
+<!-- ================= HERO SECTION ================= -->
 <section class="hero-container">
 
   <div class="hero-text">
@@ -273,8 +253,7 @@
 
 </section>
 
-
-<!-- FEATURES -->
+<!-- ================= FEATURES ================= -->
 <div class="features">
 
   <div class="card">

@@ -4,16 +4,9 @@ from django.utils import timezone
 
 
 # ==========================================================
-# ✅ Instructor Model (With Admin Approval System)
+# ✅ Instructor Model
 # ==========================================================
 class Instructor(models.Model):
-    """
-    Instructor Profile Table
-
-    Approval System:
-    - Instructor registers → Pending Approval
-    - Admin approves → Instructor can login
-    """
 
     user = models.OneToOneField(
         User,
@@ -23,34 +16,20 @@ class Instructor(models.Model):
 
     created_at = models.DateTimeField(default=timezone.now)
 
-    # Active Account
     is_active = models.BooleanField(default=True)
-
-    # ✅ Admin Approval Required
     is_approved = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"Instructor: {self.user.email}"
+        return f"Instructor: {self.user.username}"
 
-    # ✅ Helper Function
     def approved_status(self):
-        if self.is_approved:
-            return "Approved"
-        return "Pending"
+        return "Approved" if self.is_approved else "Pending"
 
 
 # ==========================================================
-# ✅ Category Model
+# ✅ Category Model (Parent + Child System)
 # ==========================================================
 class Category(models.Model):
-    """
-    Category Table
-
-    Instructor can create categories like:
-    - Programming
-    - AI
-    - Web Development
-    """
 
     instructor = models.ForeignKey(
         Instructor,
@@ -59,26 +38,53 @@ class Category(models.Model):
     )
 
     name = models.CharField(max_length=200)
+
+    # ✅ Parent Category Support
+    parent = models.ForeignKey(
+        "self",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="subcategories"
+    )
+
     created_at = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        unique_together = ("instructor", "name")
         ordering = ["name"]
 
+        # Prevent duplicate names per instructor
+        unique_together = ("instructor", "name")
+
     def __str__(self):
-        return f"{self.name} ({self.instructor.user.email})"
+        if self.parent:
+            return f"{self.parent.name} → {self.name}"
+        return self.name
+
+    # Default Categories Auto Created
+    @staticmethod
+    def default_parent_categories():
+        return [
+            "Programming Languages",
+            "Web Development",
+            "Mobile Development",
+            "Game Development",
+            "Data Science & AI",
+            "IT & Software",
+            "Cyber Security",
+            "Cloud & DevOps",
+            "UI/UX & Design",
+            "Business & Freelancing",
+            "Career Paths",
+            "Tools & Technologies",
+            "Other"
+        ]
 
 
 # ==========================================================
-# ✅ Course Model (Moodle Style)
+# ✅ Course Model (Dummy Data Ready)
 # ==========================================================
 class Course(models.Model):
-    """
-    Course Table
-
-    Each Instructor can create Moodle-like courses
-    under categories.
-    """
 
     instructor = models.ForeignKey(
         Instructor,
@@ -98,9 +104,7 @@ class Course(models.Model):
 
     short_name = models.CharField(
         max_length=50,
-        unique=True,
-        null=True,
-        blank=True
+        unique=True
     )
 
     description = models.TextField(blank=True)

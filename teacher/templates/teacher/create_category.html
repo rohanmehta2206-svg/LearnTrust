@@ -9,8 +9,10 @@
         body {
             font-family: "Segoe UI", sans-serif;
             background: #f8fafc;
+            margin: 0;
         }
 
+        /* ================= NAVBAR ================= */
         nav {
             background: white;
             padding: 18px 70px;
@@ -32,33 +34,48 @@
             color: #2563eb;
         }
 
-        .container {
-            max-width: 600px;
+        /* ================= MAIN WRAPPER ================= */
+        .wrapper {
+            max-width: 1100px;
             margin: 70px auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        /* ================= CARD ================= */
+        .card {
             background: white;
-            padding: 40px;
+            padding: 45px;
             border-radius: 18px;
             box-shadow: 0 6px 18px rgba(0,0,0,0.08);
         }
 
-        h1 {
-            font-size: 28px;
-            margin-bottom: 15px;
+        h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
             color: #1e40af;
         }
 
         p {
             margin-bottom: 25px;
             color: gray;
+            font-size: 14px;
         }
 
-        input {
+        label {
+            font-weight: bold;
+            display: block;
+            margin: 15px 0 8px;
+        }
+
+        input, select {
             width: 100%;
             padding: 14px;
             border-radius: 10px;
             border: 1px solid #ddd;
             font-size: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         button {
@@ -79,38 +96,88 @@
 
         .back-link {
             display: block;
-            margin-top: 20px;
+            margin-top: 25px;
             text-align: center;
             color: #2563eb;
             font-weight: bold;
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media(max-width: 900px) {
+            .wrapper {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 
 <body>
 
-<!-- Navbar -->
+<!-- ================= NAVBAR ================= -->
 <nav>
     <div class="logo">🎓 Adaptive LMS</div>
-    <a href="{% url 'teacher_manage_courses' %}">⬅ Back</a>
+    <a href="{% url 'teacher:teacher_manage_courses' %}">⬅ Back</a>
 </nav>
 
-<!-- Form Container -->
-<div class="container">
-    <h1>📂 Create New Category</h1>
-    <p>Add a new course category for better organization.</p>
 
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.name }}
+<!-- ================= CATEGORY CREATE PAGE ================= -->
+<div class="wrapper">
 
-        <button type="submit">+ Create Category</button>
-    </form>
+    <!-- ================================================= -->
+    <!-- ✅ LEFT SIDE → CREATE PARENT CATEGORY -->
+    <!-- ================================================= -->
+    <div class="card">
+        <h2>📂 Create Parent Category</h2>
+        <p>Main category like Programming, Web Development, Data Science.</p>
 
-    <a class="back-link" href="{% url 'teacher_manage_courses' %}">
-        Cancel & Go Back
-    </a>
+        <form method="POST">
+            {% csrf_token %}
+
+            <label>Parent Category Name</label>
+            <input type="text" name="name" placeholder="Enter Parent Category" required>
+
+            <!-- Parent will always be empty -->
+            <input type="hidden" name="parent" value="">
+
+            <button type="submit">+ Create Parent</button>
+        </form>
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- ✅ RIGHT SIDE → CREATE CHILD CATEGORY -->
+    <!-- ================================================= -->
+    <div class="card">
+        <h2>↳ Create Child Category</h2>
+        <p>Subcategory like Python under Programming, Django under Web Dev.</p>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label>Child Category Name</label>
+            <input type="text" name="name" placeholder="Enter Child Category" required>
+
+            <label>Select Parent Category</label>
+            <select name="parent" required>
+                <option value="">-- Choose Parent Category --</option>
+
+                {% for cat in categories %}
+                    <option value="{{ cat.id }}">{{ cat.name }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">+ Create Child</button>
+        </form>
+    </div>
+
 </div>
+
+
+<!-- Back Link -->
+<a class="back-link" href="{% url 'teacher:teacher_manage_courses' %}">
+    Cancel & Go Back
+</a>
 
 </body>
 </html>

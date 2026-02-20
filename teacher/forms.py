@@ -3,25 +3,47 @@ from .models import Category, Course
 
 
 # ============================
-# ✅ Category Form
+# ✅ Category Form (Parent + Child Support)
 # ============================
 class CategoryForm(forms.ModelForm):
+
+    parent = forms.ModelChoiceField(
+        queryset=Category.objects.none(),
+        required=False,
+        empty_label="-- No Parent (Main Category) --",
+        widget=forms.Select(attrs={
+            "class": "form-control"
+        })
+    )
+
     class Meta:
         model = Category
-        fields = ["name"]
+        fields = ["name", "parent"]
 
         widgets = {
             "name": forms.TextInput(attrs={
                 "class": "form-control",
                 "placeholder": "Enter Category Name"
-            })
+            }),
         }
 
 
 # ============================
-# ✅ Course Form (Updated Moodle Style)
+# ✅ Course Form (Moodle Style FIXED)
 # ============================
 class CourseForm(forms.ModelForm):
+
+    # ✅ FIX: Visibility Dropdown Correct
+    visibility = forms.ChoiceField(
+        choices=[
+            (True, "Visible ✅"),
+            (False, "Hidden ❌")
+        ],
+        widget=forms.Select(attrs={
+            "class": "form-control"
+        })
+    )
+
     class Meta:
         model = Course
 
@@ -37,6 +59,10 @@ class CourseForm(forms.ModelForm):
 
         widgets = {
 
+            "category": forms.Select(attrs={
+                "class": "form-control"
+            }),
+
             "full_name": forms.TextInput(attrs={
                 "class": "form-control",
                 "placeholder": "e.g. Python for Beginners"
@@ -51,10 +77,6 @@ class CourseForm(forms.ModelForm):
                 "class": "form-control",
                 "placeholder": "Enter Course Description",
                 "rows": 4
-            }),
-
-            "visibility": forms.Select(attrs={
-                "class": "form-control"
             }),
 
             "start_date": forms.DateInput(attrs={

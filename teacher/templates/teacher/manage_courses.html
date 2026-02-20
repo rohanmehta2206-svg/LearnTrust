@@ -12,16 +12,12 @@
             box-sizing: border-box;
         }
 
-        html {
-            overflow-y: scroll;
-        }
-
         body {
             font-family: "Segoe UI", sans-serif;
             background: #f8fafc;
         }
 
-        /* ================= NAVBAR ================= */
+        /* ================= NAVBAR (Same as Dashboard) ================= */
         nav {
             background: white;
             padding: 18px 70px;
@@ -44,6 +40,8 @@
             list-style: none;
             display: flex;
             gap: 28px;
+            margin: 0;
+            padding: 0;
             align-items: center;
         }
 
@@ -64,7 +62,7 @@
             padding-bottom: 6px;
         }
 
-        /* ✅ Logout Button */
+        /* Logout Button */
         .logout-btn {
             background: #2563eb;
             color: white;
@@ -80,12 +78,11 @@
             background: #1e40af;
         }
 
-        /* ================= MAIN CONTAINER ================= */
+        /* ================= PAGE CONTENT ================= */
         .container {
             padding: 55px 75px;
         }
 
-        /* ================= HEADER BANNER ================= */
         .header-box {
             background: linear-gradient(to right, #1e40af, #2563eb);
             padding: 50px;
@@ -101,17 +98,10 @@
             font-size: 40px;
         }
 
-        .header-box p {
-            margin-top: 10px;
-            opacity: 0.9;
-            font-size: 15px;
-        }
-
         .header-box img {
             width: 120px;
         }
 
-        /* ================= SECTION TOP ================= */
         .section-top {
             display: flex;
             justify-content: space-between;
@@ -124,12 +114,6 @@
             font-weight: bold;
         }
 
-        /* Button Group */
-        .btn-group {
-            display: flex;
-            gap: 12px;
-        }
-
         .create-btn {
             background: #2563eb;
             color: white;
@@ -138,38 +122,44 @@
             border-radius: 12px;
             cursor: pointer;
             font-weight: bold;
-            font-size: 14px;
         }
 
         .create-btn:hover {
             background: #1e40af;
         }
 
-        /* ================= CATEGORY GRID ================= */
-        .category-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 55px;
-        }
-
-        .category-card {
+        /* CATEGORY BOX */
+        .category-box {
             background: white;
-            padding: 20px;
-            border-radius: 15px;
+            padding: 25px;
+            border-radius: 18px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            margin-bottom: 60px;
+        }
+
+        .category-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .category-item:last-child {
+            border-bottom: none;
+        }
+
+        .category-name {
             font-weight: bold;
-            font-size: 16px;
             color: #2563eb;
-            transition: 0.3s;
+            font-size: 16px;
         }
 
-        .category-card:hover {
-            transform: translateY(-5px);
-            background: #eff6ff;
+        .child-category {
+            margin-left: 35px;
+            margin-top: 8px;
+            font-size: 14px;
+            color: gray;
         }
 
-        /* ================= COURSE GRID ================= */
+        /* COURSE GRID */
         .course-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -182,17 +172,11 @@
             }
         }
 
-        /* ================= COURSE CARD ================= */
         .course-card {
             background: white;
             border-radius: 18px;
             padding: 28px;
             box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-            transition: 0.3s;
-        }
-
-        .course-card:hover {
-            transform: translateY(-6px);
         }
 
         .course-card h3 {
@@ -210,56 +194,44 @@
             font-size: 14px;
             margin-bottom: 20px;
             color: #444;
-            line-height: 1.6;
         }
 
-        /* ================= ACTION BUTTON GRID ================= */
         .course-actions {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin-top: 15px;
-        }
-
-        .action-btn {
-            background: #f1f5ff;
-            color: #2563eb;
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 600;
-            text-decoration: none;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 6px;
-            border: 1px solid #dbeafe;
-            transition: 0.25s;
+            gap: 15px;
         }
 
-        .action-btn:hover {
+        .view-btn {
+            flex: 1;
             background: #2563eb;
             color: white;
-            transform: scale(1.05);
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: bold;
+            text-decoration: none;
         }
 
-        @media(max-width: 900px) {
-            .course-actions {
-                grid-template-columns: repeat(2, 1fr);
-            }
+        .delete-btn {
+            flex: 1;
+            background: #dc2626;
+            color: white;
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: bold;
+            text-decoration: none;
         }
-
     </style>
 </head>
 
 <body>
 
-<!-- ================= NAVBAR ================= -->
+<!-- ✅ NAVBAR EXACT SAME AS DASHBOARD -->
 <nav>
     <div class="logo">🎓 Adaptive LMS</div>
 
     <ul>
-        <!-- ✅ FIXED URLS WITH NAMESPACE -->
         <li><a href="{% url 'teacher:teacher_dashboard' %}">Home</a></li>
 
         <li>
@@ -272,120 +244,106 @@
         <li><a href="{% url 'teacher:teacher_assignments' %}">Assignments</a></li>
         <li><a href="{% url 'teacher:teacher_gradebook' %}">Gradebook</a></li>
 
-        <!-- ✅ FIXED LOGOUT -->
         <li>
             <form method="POST" action="{% url 'accounts:logout' %}">
                 {% csrf_token %}
-                <button type="submit" class="logout-btn">
-                    Logout
-                </button>
+                <button type="submit" class="logout-btn">Logout</button>
             </form>
         </li>
     </ul>
 </nav>
 
-
 <!-- ================= MAIN CONTENT ================= -->
 <div class="container">
 
-    <!-- Header Banner -->
+    <!-- Header -->
     <div class="header-box">
         <div>
             <h1>📚 Manage Courses</h1>
-            <p>Create, update, and organize Moodle-integrated courses easily.</p>
+            <p>Default Categories are created automatically for every teacher.</p>
         </div>
-
         <img src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png">
     </div>
 
-
-    <!-- ================= CATEGORY SECTION ================= -->
+    <!-- CATEGORY SECTION -->
     <div class="section-top">
         <h2>Your Categories</h2>
 
-        <div class="btn-group">
+        <a href="{% url 'teacher:create_course' %}">
+            <button class="create-btn">+ Create Course</button>
+        </a>
+    </div>
 
-            <!-- ✅ FIXED CATEGORY URL -->
-            <a href="{% url 'teacher:create_category' %}">
-                <button class="create-btn category-btn">
-                    + Create New Category
-                </button>
-            </a>
+    <!-- CATEGORY LIST -->
+    <div class="category-box">
 
-            <!-- ✅ FIXED COURSE URL -->
-            <a href="{% url 'teacher:create_course' %}">
-                <button class="create-btn">
-                    + Create New Course
-                </button>
-            </a>
+        {% for cat in categories %}
+        <div class="category-item">
+            <span class="category-name">📂 {{ cat.name }}</span>
 
+            {% for child in cat.subcategories.all %}
+            <div class="child-category">
+                ↳ {{ child.name }}
+            </div>
+            {% empty %}
+            <p style="margin-left:35px;color:gray;font-size:13px;">
+                No child categories
+            </p>
+            {% endfor %}
         </div>
+        {% empty %}
+        <p>No categories found.</p>
+        {% endfor %}
+
     </div>
 
-    <!-- Category Grid -->
-    <div class="category-grid">
-        <div class="category-card">💻 Programming</div>
-        <div class="category-card">📊 Data Science</div>
-        <div class="category-card">🌐 Web Development</div>
-        <div class="category-card">📚 Semester Courses</div>
-    </div>
-
-
-    <!-- ================= COURSE SECTION ================= -->
+    <!-- COURSE SECTION -->
     <div class="section-top">
         <h2>Your Teaching Courses</h2>
     </div>
 
-    <!-- Courses Grid -->
     <div class="course-grid">
 
-        <!-- Course 1 -->
+        {% for course in courses %}
         <div class="course-card">
-            <h3>Django Web Development</h3>
-            <p>Learn how to build LMS platforms using Django.</p>
+
+            <h3>{{ course.full_name }}</h3>
+            <p>{{ course.description }}</p>
 
             <div class="course-meta">
-                👥 Enrolled Students: 120 <br>
-                👁 Visibility: Visible ✅ <br>
-                📂 Category: Web Development
+                📂 Category:
+                {% if course.category %}
+                    {{ course.category.name }}
+                {% else %}
+                    Not Assigned
+                {% endif %}
+                <br>
+
+                👁 Visibility:
+                {% if course.visibility %}
+                    Visible ✅
+                {% else %}
+                    Hidden ❌
+                {% endif %}
             </div>
 
             <div class="course-actions">
-                <a href="#" class="action-btn">⚙ Settings</a>
-                <a href="#" class="action-btn">👥 Students</a>
-                <a href="#" class="action-btn">📊 Progress</a>
-                <a href="#" class="action-btn">📝 Assignments</a>
+                <a href="{% url 'teacher:course_detail' course.id %}" class="view-btn">
+                    👁 View Course
+                </a>
 
-                <a href="#" class="action-btn">❓ Quizzes</a>
-                <a href="#" class="action-btn">📒 Gradebook</a>
-                <a href="#" class="action-btn">📂 Resources</a>
-                <a href="#" class="action-btn">📢 Announcements</a>
+                <a href="{% url 'teacher:delete_course' course.id %}"
+                   class="delete-btn"
+                   onclick="return confirm('Delete this course?');">
+                    🗑 Delete Course
+                </a>
             </div>
+
         </div>
 
-        <!-- Course 2 -->
-        <div class="course-card">
-            <h3>Python Fundamentals</h3>
-            <p>Start learning Python programming step by step.</p>
-
-            <div class="course-meta">
-                👥 Enrolled Students: 80 <br>
-                👁 Visibility: Hidden ❌ <br>
-                📂 Category: Programming
-            </div>
-
-            <div class="course-actions">
-                <a href="#" class="action-btn">⚙ Settings</a>
-                <a href="#" class="action-btn">👥 Students</a>
-                <a href="#" class="action-btn">📊 Progress</a>
-                <a href="#" class="action-btn">📝 Assignments</a>
-
-                <a href="#" class="action-btn">❓ Quizzes</a>
-                <a href="#" class="action-btn">📒 Gradebook</a>
-                <a href="#" class="action-btn">📂 Resources</a>
-                <a href="#" class="action-btn">📢 Announcements</a>
-            </div>
-        </div>
+        {% empty %}
+        <p>No courses created yet.</p>
+        {% endfor %}
 
     </div>
 

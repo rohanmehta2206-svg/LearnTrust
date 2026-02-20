@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,37 +6,76 @@
     <title>Quiz Question Bank | Adaptive LMS</title>
 
     <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
         body{
-            font-family: "Segoe UI", sans-serif;
+            font-family:"Segoe UI",sans-serif;
             background:#f6f8fc;
         }
 
+        /* ================= HEADER ================= */
+        header{
+            background:white;
+            padding:18px 70px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            box-shadow:0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        header .logo{
+            font-size:22px;
+            font-weight:800;
+            color:#111;
+        }
+
+        header .btn-dashboard{
+            background:#2563eb;
+            color:white;
+            padding:10px 18px;
+            border-radius:12px;
+            text-decoration:none;
+            font-weight:600;
+        }
+
+        header .btn-dashboard:hover{
+            background:#1e40af;
+        }
+
+        /* ================= MAIN CONTAINER ================= */
         .container{
             padding:50px 80px;
         }
 
         h1{
-            font-size:32px;
-            margin-bottom:10px;
+            font-size:36px;
+            font-weight:800;
+            margin-bottom:8px;
         }
 
-        p{
+        p.subtitle{
             color:gray;
+            margin-bottom:35px;
+            font-size:15px;
         }
 
-        /* Course Cards */
+        /* ================= COURSE GRID ================= */
         .course-grid{
             display:grid;
-            grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+            grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
             gap:25px;
-            margin-top:30px;
+            margin-top:25px;
         }
 
         .course-card{
             background:white;
-            padding:25px;
-            border-radius:18px;
-            box-shadow:0 6px 15px rgba(0,0,0,0.08);
+            padding:28px;
+            border-radius:20px;
+            box-shadow:0 8px 20px rgba(0,0,0,0.07);
             transition:0.3s;
         }
 
@@ -44,16 +84,23 @@
         }
 
         .course-card h3{
-            margin-bottom:8px;
+            font-size:20px;
+            margin-bottom:10px;
+            font-weight:700;
+        }
+
+        .course-card p{
+            color:gray;
+            font-size:14px;
+            margin-bottom:18px;
         }
 
         .course-card a{
             display:inline-block;
-            margin-top:15px;
             padding:10px 18px;
             background:#2563eb;
             color:white;
-            border-radius:10px;
+            border-radius:12px;
             text-decoration:none;
             font-weight:600;
         }
@@ -62,41 +109,114 @@
             background:#1e40af;
         }
 
-        /* Question Table */
+        /* ================= QUESTION BANK HEADER ================= */
+        .bank-header{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-top:30px;
+        }
+
+        .btn-add{
+            background:#16a34a;
+            padding:10px 18px;
+            border-radius:12px;
+            color:white;
+            text-decoration:none;
+            font-weight:600;
+        }
+
+        .btn-add:hover{
+            background:#15803d;
+        }
+
+        /* ================= FILTER BAR ================= */
+        .filters{
+            display:flex;
+            gap:15px;
+            margin-top:20px;
+        }
+
+        select{
+            padding:10px;
+            border-radius:10px;
+            border:1px solid #ddd;
+            font-size:14px;
+        }
+
+        /* ================= QUESTION TABLE ================= */
         table{
             width:100%;
             border-collapse:collapse;
-            margin-top:30px;
+            margin-top:25px;
             background:white;
-            border-radius:15px;
+            border-radius:18px;
             overflow:hidden;
-            box-shadow:0 5px 15px rgba(0,0,0,0.08);
+            box-shadow:0 6px 18px rgba(0,0,0,0.08);
         }
 
         th{
             background:#2563eb;
             color:white;
-            padding:15px;
+            padding:16px;
             text-align:left;
+            font-size:15px;
         }
 
         td{
-            padding:15px;
+            padding:16px;
             border-bottom:1px solid #eee;
+            font-size:14px;
         }
 
         tr:hover{
-            background:#f1f5ff;
+            background:#f9fbff;
         }
 
+        /* ================= BADGES ================= */
+        .badge{
+            padding:6px 12px;
+            border-radius:10px;
+            font-size:12px;
+            font-weight:700;
+            display:inline-block;
+        }
+
+        .badge-mcq{
+            background:#dbeafe;
+            color:#1e40af;
+        }
+
+        .badge-truefalse{
+            background:#fef9c3;
+            color:#854d0e;
+        }
+
+        .badge-easy{
+            background:#dcfce7;
+            color:#166534;
+        }
+
+        .badge-medium{
+            background:#ffedd5;
+            color:#9a3412;
+        }
+
+        .badge-hard{
+            background:#fee2e2;
+            color:#991b1b;
+        }
+
+        /* ================= BACK BUTTON ================= */
         .back-btn{
             display:inline-block;
-            margin-top:20px;
+            margin-top:25px;
             padding:10px 18px;
             background:#111827;
             color:white;
-            border-radius:10px;
+            border-radius:12px;
             text-decoration:none;
+            font-weight:600;
         }
 
         .back-btn:hover{
@@ -107,16 +227,27 @@
 
 <body>
 
+<!-- ================= TOP HEADER ================= -->
+<header>
+    <div class="logo">🎓 Adaptive LMS</div>
+    <a href="{% url 'teacher:teacher_dashboard' %}" class="btn-dashboard">
+        ← Teacher Dashboard
+    </a>
+</header>
+
+<!-- ================= MAIN CONTENT ================= -->
 <div class="container">
 
     <h1>📘 Quiz Question Bank</h1>
-    <p>Moodle-style Question Bank for Teachers</p>
+    <p class="subtitle">
+        Moodle-style Question Bank for Teachers — Manage quiz questions easily.
+    </p>
 
 
-    <!-- ✅ If Course NOT Selected → Show Course List -->
+    <!-- ✅ COURSE SELECTION -->
     {% if not selected_course %}
 
-        <h2 style="margin-top:30px;">Select a Course</h2>
+        <h2>Select a Course</h2>
 
         <div class="course-grid">
             {% for course in courses %}
@@ -128,19 +259,44 @@
                     Open Question Bank →
                 </a>
             </div>
+            {% empty %}
+            <p>No courses available yet.</p>
             {% endfor %}
         </div>
 
     {% endif %}
 
 
-    <!-- ✅ If Course Selected → Show Questions -->
+    <!-- ✅ QUESTION BANK -->
     {% if selected_course %}
 
-        <h2 style="margin-top:40px;">
-            📌 Questions for: {{ selected_course.name }}
-        </h2>
+        <div class="bank-header">
+            <h2>📌 Questions for: {{ selected_course.name }}</h2>
 
+            <!-- Add Question Button -->
+            <a href="#" class="btn-add">
+                + Add Question
+            </a>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters">
+            <select>
+                <option>Filter by Type</option>
+                <option>MCQ</option>
+                <option>True/False</option>
+                <option>Short Answer</option>
+            </select>
+
+            <select>
+                <option>Filter by Difficulty</option>
+                <option>Easy</option>
+                <option>Medium</option>
+                <option>Hard</option>
+            </select>
+        </div>
+
+        <!-- Question Table -->
         <table>
             <tr>
                 <th>Question</th>
@@ -151,12 +307,29 @@
             {% for q in questions %}
             <tr>
                 <td>{{ q.title }}</td>
-                <td>{{ q.qtype }}</td>
-                <td>{{ q.level }}</td>
+
+                <td>
+                    <span class="badge badge-mcq">
+                        {{ q.qtype }}
+                    </span>
+                </td>
+
+                <td>
+                    {% if q.level == "Easy" %}
+                        <span class="badge badge-easy">{{ q.level }}</span>
+                    {% elif q.level == "Medium" %}
+                        <span class="badge badge-medium">{{ q.level }}</span>
+                    {% else %}
+                        <span class="badge badge-hard">{{ q.level }}</span>
+                    {% endif %}
+                </td>
             </tr>
+
             {% empty %}
             <tr>
-                <td colspan="3">No questions available yet.</td>
+                <td colspan="3" style="text-align:center; padding:25px;">
+                    No questions available yet. Add your first question 🎉
+                </td>
             </tr>
             {% endfor %}
         </table>

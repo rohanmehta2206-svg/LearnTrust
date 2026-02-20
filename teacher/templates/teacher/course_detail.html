@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ course.full_name }} | Teacher Panel</title>
+
+    <style>
+        body{
+            font-family:Segoe UI;
+            background:#f6f8fc;
+        }
+
+        .container{
+            padding:50px 80px;
+        }
+
+        h1{
+            font-size:32px;
+        }
+
+        /* Tabs */
+        .tabs{
+            margin-top:25px;
+            display:flex;
+            gap:15px;
+        }
+
+        .tab-btn{
+            padding:10px 18px;
+            border-radius:12px;
+            text-decoration:none;
+            font-weight:600;
+            background:#e5e7eb;
+            color:#111;
+        }
+
+        .tab-btn.active{
+            background:#2563eb;
+            color:white;
+        }
+
+        /* Content Box */
+        .box{
+            margin-top:30px;
+            background:white;
+            padding:25px;
+            border-radius:18px;
+            box-shadow:0 6px 15px rgba(0,0,0,0.08);
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+        }
+
+        th{
+            background:#2563eb;
+            color:white;
+            padding:12px;
+            text-align:left;
+        }
+
+        td{
+            padding:12px;
+            border-bottom:1px solid #eee;
+        }
+
+        /* Back Button */
+        .back-btn{
+            display:inline-block;
+            margin-top:25px;
+            padding:10px 18px;
+            background:#111827;
+            color:white;
+            border-radius:12px;
+            text-decoration:none;
+            font-weight:600;
+        }
+
+        .back-btn:hover{
+            background:black;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <!-- ✅ Course Name Fixed -->
+    <h1>📘 {{ course.full_name }}</h1>
+    <p>Manage Students, Assignments, and Quizzes in one page</p>
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <a href="?tab=students"
+           class="tab-btn {% if tab == 'students' %}active{% endif %}">
+           👥 Students
+        </a>
+
+        <a href="?tab=assignments"
+           class="tab-btn {% if tab == 'assignments' %}active{% endif %}">
+           📑 Assignments
+        </a>
+
+        <a href="?tab=quizzes"
+           class="tab-btn {% if tab == 'quizzes' %}active{% endif %}">
+           📝 Quizzes
+        </a>
+    </div>
+
+    <!-- Content -->
+    <div class="box">
+
+        <!-- ================= STUDENTS TAB ================= -->
+        {% if tab == "students" %}
+            <h2>Enrolled Students</h2>
+
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                </tr>
+
+                {% for s in students %}
+                <tr>
+                    <!-- ✅ Demo Data Fixed -->
+                    <td>{{ s.name }}</td>
+                    <td>{{ s.email }}</td>
+                </tr>
+
+                {% empty %}
+                <tr>
+                    <td colspan="2">No students enrolled.</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+
+
+        <!-- ================= ASSIGNMENTS TAB ================= -->
+        {% if tab == "assignments" %}
+            <h2>Course Assignments</h2>
+
+            <table>
+                <tr>
+                    <th>Title</th>
+                    <th>Due Date</th>
+                </tr>
+
+                {% for a in assignments %}
+                <tr>
+                    <td>{{ a.title }}</td>
+                    <td>{{ a.due }}</td>
+                </tr>
+
+                {% empty %}
+                <tr>
+                    <td colspan="2">No assignments found.</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+
+
+        <!-- ================= QUIZZES TAB ================= -->
+        {% if tab == "quizzes" %}
+            <h2>Course Quizzes</h2>
+
+            <table>
+                <tr>
+                    <th>Quiz</th>
+                    <th>Total Marks</th>
+                </tr>
+
+                {% for q in quizzes %}
+                <tr>
+                    <td>{{ q.title }}</td>
+                    <td>{{ q.marks }}</td>
+                </tr>
+
+                {% empty %}
+                <tr>
+                    <td colspan="2">No quizzes available.</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+
+    </div>
+
+    <!-- ✅ Back Button -->
+    <a href="{% url 'teacher:teacher_manage_courses' %}" class="back-btn">
+        ← Back to Courses
+    </a>
+
+</div>
+</body>
+</html>
